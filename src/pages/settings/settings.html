@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-navbar>
+      <button ion-button icon-only menuToggle>
+          <ion-icon name="ios-menu-outline"></ion-icon>
+        </button>
+    <ion-title>settings</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+
+ 
+    <ion-list style="margin-top: 22px;">
+    
+        <ion-item (click)="edit()">
+            Edit Profile
+          <ion-icon name="arrow-forward" item-end></ion-icon>
+        </ion-item>
+
+    
+          <ion-item (click)="terms()">
+              Terms of service
+            <ion-icon name="arrow-forward" item-end></ion-icon>
+          </ion-item>
+     
+      
+          <ion-item (click)="terms()">
+              Privacy Policy
+            <ion-icon name="arrow-forward" item-end></ion-icon>
+          </ion-item>
+     
+            <ion-item>
+                Change password
+              <ion-icon name="arrow-forward" item-end></ion-icon>
+            </ion-item>
+       
+          </ion-list>
+
+</ion-content>
+
+<ion-footer style="background-color:#ae3160">
+  <div align="center">
+    <p style="color:white">LOGOUT</p>
+  </div>
+</ion-footer>

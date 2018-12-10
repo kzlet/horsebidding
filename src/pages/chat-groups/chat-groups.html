@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-navbar>
+      <button ion-button icon-only menuToggle>
+          <ion-icon name="ios-menu-outline"></ion-icon>
+        </button>
+    <ion-title>chat-groups</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  
+    <ion-list>
+        <ion-item *ngFor="let chat of chats" (click)="viewMessages(chat)">
+          <ion-avatar item-start>
+            <img [src]="chat.imageUrl">
+          </ion-avatar>
+          <h2>{{chat.title}}</h2>
+          <p>{{chat.lastMessage}}</p>
+        </ion-item>
+      </ion-list>
+
+</ion-content>
