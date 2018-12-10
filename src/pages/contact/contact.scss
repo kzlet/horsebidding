@@ -1,3 +1,13 @@
 page-contact {
+    #myInput {
+        width: calc(100% - 10px);
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+    }
 
+    .item-input .label-md, .item-select .label-md, .item-datetime .label-md {
+        color: #999;
+        margin-left: 8px;
+    }
 }

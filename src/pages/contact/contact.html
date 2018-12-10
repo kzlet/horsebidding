@@ -8,6 +8,52 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
 
+    <div [ngSwitch]="pet">
+
+        <ion-list *ngSwitchCase="'email'">
+
+            <ion-card style="border-radius:12px 12px">
+
+                <ion-item>
+                    <ion-input type="text" placeholder="Name" [(ngModel)]="name"></ion-input>
+                </ion-item>
+          
+                <ion-item>
+                    <ion-input type="text" placeholder="Subject" [(ngModel)]="subject"></ion-input>
+                </ion-item>
+
+                <ion-item>
+                    <ion-input type="text" placeholder="Message" [(ngModel)]="message"></ion-input>
+                </ion-item>
+<!--           
+                <ion-item>
+                  <textarea #myInput id="myInput" rows="1" maxLength="500" placeholder="&nbsp;Content" (keyup)="resize()" [(ngModel)]="myStuff"></textarea>
+                </ion-item> -->
+              
+                <div align="center">
+                <button ion-button round full style="width:75%; margin-top:10px;padding:15px" (click)="submit()">Submit</button> 
+                </div>
+          
+            </ion-card>
+
+        </ion-list>
+
+        <ion-list *ngSwitchCase="'call'">
+
+          </ion-list>
+
+    </div>
 </ion-content>
+
+<ion-footer>
+    <ion-segment [(ngModel)]="pet">
+        <ion-segment-button value="email">
+          Email
+        </ion-segment-button>
+        <ion-segment-button value="call">
+          Call
+        </ion-segment-button>
+      </ion-segment>
+</ion-footer>

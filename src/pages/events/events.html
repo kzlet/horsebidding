@@ -3,11 +3,62 @@
       <button ion-button icon-only menuToggle>
           <ion-icon name="ios-menu-outline"></ion-icon>
         </button>
-    <ion-title>events</ion-title>
+    <ion-title>Events</ion-title>
   </ion-navbar>
 </ion-header>
 
 
-<ion-content padding>
+<!-- <ion-content>
 
-</ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-4 *ngFor="let post of posts">
+        <img src="{{post.image}}"/>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content> -->
+
+<ion-content>
+
+    <ion-card *ngFor="let post of posts">
+
+        <div>
+          <img src="{{post.image}}" />
+        </div>
+  
+        <ion-card-content>
+          <ion-card-title>
+              <div class="card-title" align="center">{{post.title}}</div>
+          </ion-card-title>
+          <p>
+            {{post.description}}
+          </p>
+          <p style="padding-top:5px">
+             <b>Location:</b> &nbsp;{{post.location}}
+          </p>
+        </ion-card-content>
+  
+        <ion-grid style="margin-top:10px">
+        <ion-row style="margin-top: -33px;margin-left: -15px;" no-padding>
+            <ion-col col-6>
+              <button ion-button clear small color="danger" icon-start>
+                <ion-icon name='ios-pricetags-outline'></ion-icon>
+                {{post.event_time}}
+              </button>
+            </ion-col>
+         
+      
+          <ion-col text-right col-6>
+            <button ion-button clear small color="danger" icon-start>
+              <ion-icon name='ios-calendar-outline'></ion-icon>
+              {{post.event_date}}
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      </ion-card>
+   
+  </ion-content>
