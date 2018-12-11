@@ -2,6 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { NavParams,  AlertController, App, LoadingController, NavController, Slides, } from 'ionic-angular';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { HomePage } from '../home/home';
+import { NativeStorage } from '@ionic-native/native-storage';
+
 
 @Component({
   selector: 'page-register',
@@ -14,8 +16,10 @@ export class RegisterPage {
 
   public loginForm: any;
   public backgroundImage = 'assets/imgs/bg.png'
+  nickname: any;
+  conpassword: any;
 
-  constructor(private fire : AngularFireAuth , public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public app: App) {
+  constructor(private nativeStorage: NativeStorage, private fire : AngularFireAuth , public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public app: App) {
   }
 
   @ViewChild('slider') slider: Slides;
@@ -24,20 +28,6 @@ export class RegisterPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad RegisterPage');
   }
-
-  // signup()
-  // {
-
-  // console.log("Email" + this.email);
-  // console.log("Password" + this.password);
-  // this.fire.auth.createUserWithEmailAndPassword(this.email , this.password)
-  // .then(data => {
-  //  console.log("Response:" + JSON.stringify(data));
-  // })
-  // .catch(error => {
-  // console.log("Error" + error);
-  // });
-  // }
 
 
   go()
@@ -80,14 +70,73 @@ export class RegisterPage {
   }
 
   login() {
-    this.presentLoading('Thanks for signing up!');
-     this.navCtrl.setRoot(HomePage);
+    this.fire.auth.signInWithEmailAndPassword(this.email, this.password)
+    .then(data => {
+      console.log("Done"+ data);
+  
+      this.nativeStorage.getItem('nickname')
+      .then(
+        data => {
+          //console.log("Checking for UUId:" + data);
+          this.nickname = data;
+        },
+        error => console.error(error)
+      );
+  
+      const alert = this.alertCtrl.create({
+        title: 'Welcome to the App',
+        buttons: ['OK']
+      });
+      alert.present();
+      this.navCtrl.setRoot(HomePage);
+    })
+    .catch((error: any) =>{
+      console.error(error);
+      const alert = this.alertCtrl.create({
+        title: 'Error',
+        subTitle: error,
+        buttons: ['OK']
+      });
+      alert.present();
+    }
+      );
+    
   }
 
   signup() {
-    this.presentLoading('Thanks for signing up!');
-     this.navCtrl.setRoot(HomePage);
+
+    if( this.password === this.conpassword)
+    {
+      this.fire.auth.createUserWithEmailAndPassword(this.email, this.password)
+      .then(data => {
+        console.log("Done"+ data);
+    
+        this.nativeStorage.setItem('nickname', this.nickname)
+        .then(
+          () => console.log('User Name Stored!'),
+          error => console.error('Error storing item', error)
+        );
+    
+        const alert = this.alertCtrl.create({
+          title: 'Welcome to the App',
+          buttons: ['OK']
+        });
+        alert.present();
+        this.navCtrl.setRoot(HomePage);
+      })
+      .catch((error: any) => console.error(error));
+    }
+else{
+  const alert = this.alertCtrl.create({
+    title: 'Passwords do not match',
+    buttons: ['OK']
+  });
+  alert.present();
+}
+   
   }
+
+
   resetPassword() {
     this.presentLoading('An e-mail was sent with your new password.');
   }

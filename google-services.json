@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "896600085936",
+    "firebase_url": "https://kumail-horse.firebaseio.com",
+    "project_id": "kumail-horse",
+    "storage_bucket": "kumail-horse.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:896600085936:android:151acf163bb0c6a8",
+        "android_client_info": {
+          "package_name": "io.ionic.horsetips"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "896600085936-5rrrdc73o9lom7offrlqkhn7dqbt203q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.ionic.horsetips",
+            "certificate_hash": "d773e0fe56ff0589a9a5e006bd4968ba4786cf44"
+          }
+        },
+        {
+          "client_id": "896600085936-c9re2chk84e25jj0cj70tr2nv4u36mp8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgJnexq_ijLgI_HxTp3crVtBwHBKbYjAE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "896600085936-c9re2chk84e25jj0cj70tr2nv4u36mp8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, NavController, MenuController } from 'ionic-angular';
+import { Platform, NavController, MenuController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -11,6 +11,19 @@ import { ContactPage } from '../pages/contact/contact';
 import { EventsPage } from '../pages/events/events';
 import { FaqPage } from '../pages/faq/faq';
 import { SettingsPage } from '../pages/settings/settings';
+
+import * as firebase from 'firebase';
+
+// Initialize Firebase  kumail-horse (Firebase project name)
+var config = {
+  apiKey: "AIzaSyBu6m7gEDyIHPLEFaIw87Nkikf9t8F9H_U",
+    authDomain: "kumail-horse.firebaseapp.com",
+    databaseURL: "https://kumail-horse.firebaseio.com",
+    projectId: "kumail-horse",
+    storageBucket: "",
+    messagingSenderId: "896600085936"
+};
+
 @Component({
   templateUrl: 'app.html'
 })
@@ -27,11 +40,10 @@ export class MyApp {
   
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private menuCtrl: MenuController) {
     platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
     });
+    firebase.initializeApp(config);
   }
 
   openPage(page) {
