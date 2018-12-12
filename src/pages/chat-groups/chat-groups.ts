@@ -14,7 +14,7 @@ export class ChatGroupsPage {
   rooms = [];
   
   ref = firebase.database().ref('chatrooms/');
-  nickname: any = "kumail";
+  nickname: any = 'kumail';
 
   constructor(private nativeStorage: NativeStorage, public navCtrl: NavController, public navParams: NavParams) {
 
@@ -30,6 +30,7 @@ export class ChatGroupsPage {
     this.ref.on('value', resp => {
       this.rooms = [];
       this.rooms = snapshotToArray(resp);
+      console.log("Rooms:" + JSON.stringify(resp));
       //console.log("Rooms: " + JSON.stringify(this.rooms[0].chats.user));
     });
   }

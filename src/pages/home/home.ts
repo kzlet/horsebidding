@@ -22,6 +22,8 @@ export class HomePage {
     tweets: 35
   };
   posts: { 'image': string; 'name': string; 'id': string; }[];
+
+
   constructor(public navCtrl: NavController, public menuCtrl: MenuController) {
     this.posts = [
       { 'image': 'imgs/icon1.png', 'name': 'Chat Groups', 'id': '1' },

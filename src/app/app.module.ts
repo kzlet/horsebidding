@@ -22,6 +22,15 @@ import { Firebase } from '@ionic-native/firebase';
 import { AddroomPage } from '../pages/addroom/addroom';
 import { ChatPage } from '../pages/chat/chat';
 
+//to upload files in chat
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+import { FileChooser } from '@ionic-native/file-chooser';
+import { File } from '@ionic-native/file';
+import { Camera, CameraOptions } from '@ionic-native/camera';
+
+//for audio capture messages
+import { Media } from '@ionic-native/media';
+import { AudioPage } from '../pages/audio/audio';
 
 
 //kumail-horse (firebase project name)
@@ -30,7 +39,7 @@ const firebaseAuth = {
     authDomain: "kumail-horse.firebaseapp.com",
     databaseURL: "https://kumail-horse.firebaseio.com",
     projectId: "kumail-horse",
-    storageBucket: "",
+    storageBucket: "kumail-horse.appspot.com",
     messagingSenderId: "896600085936"
 };
 
@@ -48,7 +57,8 @@ const firebaseAuth = {
     FaqPage,
     SettingsPage,
     AddroomPage,
-    ChatPage
+    ChatPage,
+    AudioPage
   ],
   imports: [
     BrowserModule,
@@ -68,7 +78,8 @@ const firebaseAuth = {
     FaqPage,
     SettingsPage,
     AddroomPage,
-    ChatPage
+    ChatPage,
+    AudioPage
   ],
   providers: [
     StatusBar,
@@ -76,6 +87,12 @@ const firebaseAuth = {
     FirebaseAuthentication,
     Firebase,
     NativeStorage,
+    File,
+    FileChooser,
+    FileTransfer,
+    FileTransferObject,
+    Camera,
+    Media,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
