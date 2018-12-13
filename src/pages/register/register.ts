@@ -72,23 +72,28 @@ export class RegisterPage {
   login() {
     this.fire.auth.signInWithEmailAndPassword(this.email, this.password)
     .then(data => {
-      console.log("Done"+ data);
+      console.log("Done"+ JSON.stringify(data));
+
+      console.log("User ID" + JSON.stringify(data.user.uid));
   
-      this.nativeStorage.getItem('nickname')
-      .then(
-        data => {
-          //console.log("Checking for UUId:" + data);
-          this.nickname = data;
-        },
-        error => console.error(error)
-      );
+      //  this.nativeStorage.setItem('nickname', this.nickname)
+      //   .then(
+      //     () => console.log('User Name Stored!'),
+      //     error => console.error('Error storing item', error)
+      //   );
+
+        this.nativeStorage.setItem('uuid', data.user.uid)
+        .then(
+          () => console.log('UUID Stored!'),
+          error => console.error('Error storing item', error)
+        );
   
       const alert = this.alertCtrl.create({
         title: 'Welcome to the App',
         buttons: ['OK']
       });
       alert.present();
-      this.navCtrl.setRoot(HomePage);
+     // this.navCtrl.setRoot(HomePage);
     })
     .catch((error: any) =>{
       console.error(error);

@@ -65,12 +65,12 @@
         <ion-slide class="swiper-no-swiping">
           <div style="padding: 20% 32px 32px 32px">
             <ion-item>
-              <ion-label floating>Email</ion-label>
-              <ion-input type="text" [(ngModel)]="email"></ion-input>
+              <!-- <ion-label floating>Email</ion-label> -->
+              <ion-input type="text" placeholder="Email" [(ngModel)]="email"></ion-input>
             </ion-item>
             <ion-item>
-              <ion-label floating>Password</ion-label>
-              <ion-input type="password" [(ngModel)]="password"></ion-input>
+              <!-- <ion-label floating>Password</ion-label> -->
+              <ion-input type="password" placeholder="Password" [(ngModel)]="password"></ion-input>
             </ion-item>
             <button style="margin-top: 32px;" ion-button block round (click)="login()" color="light" class="login-button">Login</button>
             <button ion-button clear (click)="slideNext()" color="light" class="forgot-button">FORGOT PASSWORD?</button>
@@ -97,7 +97,7 @@
       <div style="padding: 32px">
         <ion-item>
           <ion-label floating>Email</ion-label>
-          <ion-input type="text"  [(ngModel)]="email"></ion-input>
+          <ion-input type="text" [(ngModel)]="email"></ion-input>
         </ion-item>
         <ion-item>
           <ion-label floating>Username</ion-label>
@@ -111,6 +111,8 @@
           <ion-label floating>Confirm Password</ion-label>
           <ion-input type="password" [(ngModel)]="conpassword"></ion-input>
         </ion-item>
+       
+     
         <button style="margin-top: 32px;" ion-button block round (click)="signup()" color="light" class="login-button">SIGN UP</button>
       </div>
     </ion-slide>

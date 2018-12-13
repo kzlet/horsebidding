@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import {  NavController, NavParams, Content, ActionSheetController, ToastController, Platform, ModalController  } from 'ionic-angular';
+import { NavController, NavParams, Content, ActionSheetController, ToastController, Platform, ModalController } from 'ionic-angular';
 import * as firebase from 'Firebase';
 import { ChatGroupsPage } from '../chat-groups/chat-groups';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
@@ -9,6 +9,7 @@ import { NativeStorage } from '@ionic-native/native-storage';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { Media, MediaObject } from '@ionic-native/media';
 import { AudioPage } from '../audio/audio';
+import { AngularFireDatabase } from '@angular/fire/database';
 
 @Component({
   selector: 'page-chat',
@@ -38,7 +39,7 @@ export class ChatPage {
   public myPhoto: any;
   public myPhotoURL: any;
 
-  constructor(public modalCtrl: ModalController, private file: File, public platform: Platform, private media: Media, public toastCtrl: ToastController, private camera: Camera, public actionSheetCtrl: ActionSheetController, private nativeStorage: NativeStorage, public navCtrl: NavController, public navParams: NavParams, private fileTransfer: FileTransferObject, private fileChooser: FileChooser, private transfer: FileTransfer) {
+  constructor(private db : AngularFireDatabase,public modalCtrl: ModalController, private file: File, public platform: Platform, private media: Media, public toastCtrl: ToastController, private camera: Camera, public actionSheetCtrl: ActionSheetController, private nativeStorage: NativeStorage, public navCtrl: NavController, public navParams: NavParams, private fileTransfer: FileTransferObject, private fileChooser: FileChooser, private transfer: FileTransfer) {
     this.myPhotosRef = firebase.storage().ref('/images/');
     var mike_value = '0';
     console.log("Mike value" + mike_value);
@@ -75,48 +76,44 @@ export class ChatPage {
       user: this.data.nickname,
       message: this.data.message,
       sendDate: Date(),
-      message_status : '1'
+      message_status: '1'
     });
     this.data.message = '';
   }
 
-  play(voice : string)
-  {
+  play(voice: string) {
     var voice = 'https://purpledimes.com/mobile_app/lst/images/sample.mp3';
     const file: MediaObject = this.media.create(voice);
     file.play();
   }
 
-  pause(voice :string)
-  {
+  pause(voice: string) {
     var voice = 'https://purpledimes.com/mobile_app/lst/images/sample.mp3';
     const file: MediaObject = this.media.create(voice);
     file.pause();
   }
 
-  uploadAudiotoFirebase()
-  {
+  uploadAudiotoFirebase() {
     let newData = firebase.database().ref('chatrooms/' + this.roomkey + '/chats').push();
     newData.set({
       type: this.data.type,
       user: this.data.nickname,
-      voice:"Voice data",
+      voice: "Voice data",
       sendDate: Date(),
-      message_status : '0'
+      message_status: '0'
     });
     this.data.message = '';
   }
 
-  sendVoicenote()
-  { 
+  sendVoicenote() {
     console.log("Start recording");
-    var mike_value = 1; 
+    var mike_value = 1;
     if (this.platform.is('ios')) {
-      this.fileName = 'record'+new Date().getDate()+new Date().getMonth()+new Date().getFullYear()+new Date().getHours()+new Date().getMinutes()+new Date().getSeconds()+'.3gp';
+      this.fileName = 'record' + new Date().getDate() + new Date().getMonth() + new Date().getFullYear() + new Date().getHours() + new Date().getMinutes() + new Date().getSeconds() + '.3gp';
       this.filePath = this.file.documentsDirectory.replace(/file:\/\//g, '') + this.fileName;
       this.audio = this.media.create(this.filePath);
     } else if (this.platform.is('android')) {
-      this.fileName = 'record'+new Date().getDate()+new Date().getMonth()+new Date().getFullYear()+new Date().getHours()+new Date().getMinutes()+new Date().getSeconds()+'.3gp';
+      this.fileName = 'record' + new Date().getDate() + new Date().getMonth() + new Date().getFullYear() + new Date().getHours() + new Date().getMinutes() + new Date().getSeconds() + '.3gp';
       this.filePath = this.file.externalDataDirectory.replace(/file:\/\//g, '') + this.fileName;
       this.audio = this.media.create(this.filePath);
     }
@@ -132,16 +129,11 @@ export class ChatPage {
     this.audioList.push(data);
     localStorage.setItem("audiolist", JSON.stringify(this.audioList));
     this.recording = false;
+
+    //testing to upload sounds onto firebase
   }
 
-  // OPENmODAL()
-  // {
-  //   const modal = this.modalCtrl.create(AudioPage);
-  //   modal.present();
-  // }
-
-  what()
-  {
+  what() {
     const actionSheet = this.actionSheetCtrl.create({
       title: 'Choose your action',
       buttons: [
@@ -151,13 +143,13 @@ export class ChatPage {
             console.log('Destructive clicked');
             this.attachfiles();
           }
-        },{
+        }, {
           text: 'Add Image',
           handler: () => {
             console.log('Add images');
             this.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY);
           }
-        },{
+        }, {
           text: 'Cancel',
           role: 'cancel',
           handler: () => {
@@ -185,98 +177,128 @@ export class ChatPage {
     });
   }
 
-  attachfiles()
-  {
-       this.fileChooser.open()
-         .then(uri => {
-           console.log(uri)
-           this.nativeStorage.setItem('uri', uri)
-           .then(
-             () => console.log('uri Stored!'),
-             error => console.error('Error storing item', error)
-           );
-            
-         })
-         .catch(e => 
-          {
-            console.log(e);
-            this.presentToast('Error while opening files.');
-          });
-     
+  attachfiles() {
+    this.fileChooser.open()
+      .then(uri => {
+        console.log(uri)
+        this.nativeStorage.setItem('uri', uri)
+          .then(
+            () => console.log('uri Stored!'),
+            error => console.error('Error storing item', error)
+          );
+
+      })
+      .catch(e => {
+        console.log(e);
+        this.presentToast('Error while opening files.');
+      });
+
   }
 
-  public takePicture(sourceType) {
-    // Create options for the Camera Dialog
-    var options = {
-      quality: 100,
-      sourceType: sourceType,
-      saveToPhotoAlbum: false,
-      correctOrientation: true
-    };
-    
-    // Get the data of an image
-    this.camera.getPicture(options).then((imagePath) => {
-      // Special handling for Android library
-     console.log("ImageURL from Source",imagePath)
-      this.imageURI = imagePath;
-      console.log("ImageURL ",this.imageURI);
-      this.uploadImage(this.imageURI);
-    }, (err) => {
-      this.presentToast('Error while selecting image.');
-    });
-    }
-    
-    private presentToast(text) {
-      let toast = this.toastCtrl.create({
-        message: text,
-        duration: 3000,
-        position: 'bottom'
-      });
-      toast.present();
+  async takePicture(sourceType) {
+    console.log("Storage function called");
+    try {
+      const options: CameraOptions = {
+        quality: 50,
+        sourceType: sourceType,
+        correctOrientation: true,
+        destinationType: this.camera.DestinationType.DATA_URL,
+        encodingType: this.camera.EncodingType.JPEG,
+        mediaType: this.camera.MediaType.PICTURE,
       }
-
-      //let newData = firebase.database().ref('chatrooms/' + this.roomkey + '/chats').push();
-      // private uploadPhoto(): void {
-      //   this.myPhotosRef.child('myPhoto.png')
-      //     .putString(this.imageURI, 'base64', { contentType: 'image/png' })
-      //     .then((savedPicture) => {
-      //       console.log("After upload"+ savedPicture);
-      //       this.myPhotoURL = savedPicture.downloadURL;
-      //     });
-      // }
-
-      //new example
-      uploadImage(imageURI){
-        return new Promise<any>((resolve, reject) => {
-          let storageRef = firebase.storage().ref();
-          let imageRef = storageRef.child('images').child('imageName');
-          this.encodeImageUri(imageURI, function(image64){
-            imageRef.putString(image64, 'data_url')
-            .then(snapshot => {
-              resolve(snapshot.downloadURL)
-            }, err => {
-              reject(err);
-            })
-          })
-        })
-      }
-
-      encodeImageUri(imageUri, callback) {
-        var c = document.createElement('canvas');
-        var ctx = c.getContext("2d");
-        var img = new Image();
-        img.onload = function () {
-          var aux:any = this;
-          c.width = aux.width;
-          c.height = aux.height;
-          ctx.drawImage(img, 0, 0);
-          var dataURL = c.toDataURL("image/jpeg");
-          callback(dataURL);
-        };
-        img.src = imageUri;
+      const result = await this.camera.getPicture(options);
+      var metadata = {
+        contentType: 'image/jpeg',
       };
+      let newName = `${new Date().getTime()}.txt`;
+      const pictures = firebase.storage().ref(`images/${newName}`);
+      pictures.putString(result, 'base64', metadata).then(snapshot => {
+      // console.log(pictures.getDownloadURL);
+      pictures.getDownloadURL().then(function(url){
+        console.log("log1: " + url);
+        return url;
 
-}
+
+        //Add chat data here....
+
+      });
+
+      }).catch(error => {
+        console.log(error);
+      });
+    }
+    catch (e) {
+      console.log("Error" + JSON.stringify(e));
+    }
+  }
+
+  // storeInfoToDatabase(metainfo)
+  // {
+  //   console.log("Store into db called");
+  //   console.log("metainfo" + metainfo);
+  //    let toSave = {
+  //      created : metainfo.timeCreated,
+  //      url : metainfo.downloadURL,
+  //      fullPath : metainfo.fullPath,
+  //      contentType : metainfo.contentType
+  //    }
+  //    console.log(toSave);
+  //    return this.db.list('files').push(toSave);
+  // }
+
+  // getData()
+  // {
+  //   console.log("Get data clicked");
+  //   let ref = this.db.list('files');
+  //   return ref.snapshotChanges()
+  //   .map(changes=> {
+  //     return changes.map( c=> ({ key : c.payload.key}));
+      
+  //     }
+  //   );
+  // }
+
+  private presentToast(text) {
+    let toast = this.toastCtrl.create({
+      message: text,
+      duration: 3000,
+      position: 'bottom'
+    });
+    toast.present();
+  }
+
+//   //new example
+//   uploadImage(imageURI) {
+//     return new Promise<any>((resolve, reject) => {
+//       let storageRef = firebase.storage().ref();
+//       let imageRef = storageRef.child('images').child('imageName');
+//       this.encodeImageUri(imageURI, function (image64) {
+//         imageRef.putString(image64, 'data_url')
+//           .then(snapshot => {
+//             resolve(snapshot.downloadURL)
+//           }, err => {
+//             reject(err);
+//           })
+//       })
+//     })
+//   }
+
+//   encodeImageUri(imageUri, callback) {
+//     var c = document.createElement('canvas');
+//     var ctx = c.getContext("2d");
+//     var img = new Image();
+//     img.onload = function () {
+//       var aux: any = this;
+//       c.width = aux.width;
+//       c.height = aux.height;
+//       ctx.drawImage(img, 0, 0);
+//       var dataURL = c.toDataURL("image/jpeg");
+//       callback(dataURL);
+//     };
+//     img.src = imageUri;
+//   }
+
+ }
 
 export const snapshotToArray = snapshot => {
   let returnArr = [];
@@ -288,3 +310,38 @@ export const snapshotToArray = snapshot => {
 
   return returnArr;
 };
+
+
+
+// public takePicture(sourceType) {
+//   // Create options for the Camera Dialog
+//   var options = {
+//     quality: 50,
+//     destinationType: this.camera.DestinationType.DATA_URL,
+//     encodingType: this.camera.EncodingType.JPEG,
+//     mediaType: this.camera.MediaType.PICTURE
+//     // sourceType: sourceType,
+//     // saveToPhotoAlbum: false,
+//     // correctOrientation: true
+//   };
+
+//   // Get the data of an image
+//   this.camera.getPicture(options).then((imagePath) => {
+//     // Special handling for Android library
+//    console.log("ImageURL from Source",imagePath)
+//     this.imageURI = imagePath;
+//     console.log("ImageURL ",this.imageURI);
+//     this.uploadImage(this.imageURI);
+//   }, (err) => {
+//     this.presentToast('Error while selecting image.');
+//   });
+//   }
+
+//   private presentToast(text) {
+//     let toast = this.toastCtrl.create({
+//       message: text,
+//       duration: 3000,
+//       position: 'bottom'
+//     });
+//     toast.present();
+//     }

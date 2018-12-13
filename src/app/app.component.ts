@@ -20,7 +20,7 @@ var config = {
     authDomain: "kumail-horse.firebaseapp.com",
     databaseURL: "https://kumail-horse.firebaseio.com",
     projectId: "kumail-horse",
-    storageBucket: "kumail-horse.appspot.com",
+    storageBucket: "gs://kumail-horse.appspot.com/",
     messagingSenderId: "896600085936"
 };
 

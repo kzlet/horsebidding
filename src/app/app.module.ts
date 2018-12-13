@@ -18,6 +18,7 @@ import { NativeStorage } from '@ionic-native/native-storage';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { FirebaseAuthentication } from '@ionic-native/firebase-authentication';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { Firebase } from '@ionic-native/firebase';
 import { AddroomPage } from '../pages/addroom/addroom';
 import { ChatPage } from '../pages/chat/chat';
@@ -39,7 +40,7 @@ const firebaseAuth = {
     authDomain: "kumail-horse.firebaseapp.com",
     databaseURL: "https://kumail-horse.firebaseio.com",
     projectId: "kumail-horse",
-    storageBucket: "kumail-horse.appspot.com",
+    storageBucket: "gs://kumail-horse.appspot.com/",
     messagingSenderId: "896600085936"
 };
 
@@ -64,7 +65,8 @@ const firebaseAuth = {
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseAuth),
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    AngularFireDatabaseModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
