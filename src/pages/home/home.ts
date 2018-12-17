@@ -6,6 +6,8 @@ import { FaqPage } from '../faq/faq';
 import { BookieOfferPage } from '../bookie-offer/bookie-offer';
 import { SettingsPage } from '../settings/settings';
 import { ContactPage } from '../contact/contact';
+import * as firebase from 'Firebase';
+import { NativeStorage } from '@ionic-native/native-storage';
 
 @Component({
   selector: 'page-home',
@@ -23,8 +25,13 @@ export class HomePage {
   };
   posts: { 'image': string; 'name': string; 'id': string; }[];
 
+  uuid : any = '4SHrPtfbMATuc2jk5MSOHVkqKFJ2';
+  
+  ref = firebase.database().ref(`profile/${this.uuid}`);
+  username: any[];
+ 
 
-  constructor(public navCtrl: NavController, public menuCtrl: MenuController) {
+  constructor(private nativeStorage: NativeStorage, public navCtrl: NavController, public menuCtrl: MenuController) {
     this.posts = [
       { 'image': 'imgs/icon1.png', 'name': 'Chat Groups', 'id': '1' },
       { 'image': 'imgs/icon2.png', 'name': 'Events', 'id': '2' },
@@ -33,6 +40,28 @@ export class HomePage {
       { 'image': 'imgs/icon3.png', 'name': 'Bookie Offer', 'id': '5' },
       { 'image': 'imgs/icon4.png', 'name': 'Settings', 'id': '6' },
     ]
+
+    this.nativeStorage.getItem('uuid')
+    .then(
+      data => {
+        this.uuid = data;
+      },
+      error => console.error(error)
+    );
+
+    this.ref.on('value', resp => {
+      this.username = [];
+      this.username = snapshotToArray(resp);
+      console.log("data:" + JSON.stringify(this.username));
+      
+        this.nativeStorage.setItem('nickname', this.username[0])
+        .then(
+          data => console.log('User Name Stored!' + data),
+          error => console.error('Error storing item', error)
+        );
+
+    });
+
   }
 
   OnOpenMenu() {
@@ -65,3 +94,14 @@ export class HomePage {
   }
 
 }
+export const snapshotToArray = snapshot => {
+  let returnArr = [];
+
+  snapshot.forEach(childSnapshot => {
+      let item = childSnapshot.val();
+     // item.key = childSnapshot.key;
+      returnArr.push(item);
+  });
+
+  return returnArr;
+};

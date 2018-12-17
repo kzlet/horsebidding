@@ -32,7 +32,12 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 //for audio capture messages
 import { Media } from '@ionic-native/media';
 import { AudioPage } from '../pages/audio/audio';
+import { AdminchatPage } from '../pages/adminchat/adminchat';
+import { PaypalPage } from '../pages/paypal/paypal';
 
+//Paypal Integration
+import { PayPal, PayPalPayment, PayPalConfiguration } from '@ionic-native/paypal';
+import { ProfilePage } from '../pages/profile/profile';
 
 //kumail-horse (firebase project name)
 const firebaseAuth = {
@@ -59,7 +64,10 @@ const firebaseAuth = {
     SettingsPage,
     AddroomPage,
     ChatPage,
-    AudioPage
+    AudioPage,
+    AdminchatPage,
+    PaypalPage,
+    ProfilePage
   ],
   imports: [
     BrowserModule,
@@ -81,7 +89,10 @@ const firebaseAuth = {
     SettingsPage,
     AddroomPage,
     ChatPage,
-    AudioPage
+    AudioPage,
+    AdminchatPage,
+    PaypalPage,
+    ProfilePage
   ],
   providers: [
     StatusBar,
@@ -95,6 +106,8 @@ const firebaseAuth = {
     FileTransferObject,
     Camera,
     Media,
+    PayPal,
+    //PayPalPayment,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

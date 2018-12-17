@@ -9,7 +9,7 @@
       {{roomname}}
     </ion-title>
     <ion-buttons end>
-      <button ion-button icon-only style="color:red" (click)="getData()"> <!--  exitChat()-->
+      <button ion-button icon-only style="color:red" (click)="exitChat()"> <!--  exitChat()-->
         <ion-icon name="exit"></ion-icon>
       </button>
     </ion-buttons>
@@ -25,11 +25,12 @@
         <span class="chat-content-center">{{chat.message}}</span>
       </div>
       <ng-template #message>
+
         <div class="chat-message" text-right *ngIf="chat.user === nickname">
           <div class="right-bubble">
             <span class="msg-name">Me</span>
             <span class="msg-date">{{chat.sendDate | date:'short'}}</span>
-            <p *ngIf="!chat.voice" text-wrap>{{chat.message}}</p>
+            <p *ngIf="!chat.voice && !chat.image" text-wrap>{{chat.message}}</p>
            
             <div *ngIf="chat.voice">
 
@@ -48,13 +49,17 @@
 
             </div>
 
+            <div *ngIf="chat.image">
+            <img src="{{chat.image}}" class="thumb-img" imageViewer/>
+            </div>
+
           </div>
         </div>
         <div class="chat-message" text-left *ngIf="chat.user !== nickname">
           <div class="left-bubble">
             <span class="msg-name">{{chat.user}}</span>
             <span class="msg-date">{{chat.sendDate | date:'short'}}</span>
-            <p *ngIf="!chat.voice" text-wrap>{{chat.message}}</p>
+            <p *ngIf="!chat.voice && !chat.image" text-wrap>{{chat.message}}</p>
             
             <div *ngIf="chat.voice">
 
@@ -73,6 +78,10 @@
   
               </div>
 
+              <div *ngIf="chat.image">
+                  <img src="{{chat.image}}" class="thumb-img" imageViewer/>
+                  </div>
+
           </div>
         </div>
       </ng-template>
@@ -85,8 +94,8 @@
 
       <ion-col col-2>
         <div *ngIf="!data.message">
-          <!-- <ion-icon *ngIf="mike_value" style="color:red" name="ios-microphone" (click)="stopRecord()"></ion-icon> -->
-          <ion-icon style="color:green" name="ios-microphone" (click)="uploadAudiotoFirebase()"></ion-icon>
+          <ion-icon *ngIf="mike_value === '1' || mike_value === 1" style="color:red" name="ios-microphone" (click)="stopRecord()"></ion-icon>
+          <ion-icon *ngIf="mike_value === '0' || mike_value === 0" style="color:green" name="ios-microphone" (click)="sendVoicenote()"></ion-icon>
         </div>
       </ion-col>
 

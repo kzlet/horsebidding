@@ -10,7 +10,7 @@ export class AddroomPage {
 
   data = { roomname:'' };
   ref = firebase.database().ref('chatrooms/');
-
+ // ref = firebase.database().ref('adminroom/');
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 

@@ -13,6 +13,7 @@ import { FaqPage } from '../pages/faq/faq';
 import { SettingsPage } from '../pages/settings/settings';
 
 import * as firebase from 'firebase';
+import { PaypalPage } from '../pages/paypal/paypal';
 
 // Initialize Firebase  kumail-horse (Firebase project name)
 var config = {
@@ -29,7 +30,7 @@ var config = {
 })
 export class MyApp {
   @ViewChild('nav') nav: NavController;
-  rootPage:any = HomePage;
+  rootPage:any = RegisterPage; //HomePage
   
   home = HomePage;
   bookie = BookieOfferPage;

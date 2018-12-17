@@ -4,17 +4,19 @@ import * as firebase from 'Firebase';
 import { ChatPage } from '../chat/chat';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { AddroomPage } from '../addroom/addroom';
+import { AdminchatPage } from '../adminchat/adminchat';
 
 @Component({
   selector: 'page-chat-groups',
   templateUrl: 'chat-groups.html',
 })
 export class ChatGroupsPage {
-  chats: { imageUrl: string; title: string; lastMessage: string; timestamp: Date; }[];
   rooms = [];
   
   ref = firebase.database().ref('chatrooms/');
+  ref2 = firebase.database().ref('adminRooms/');
   nickname: any = 'kumail';
+  adminRooms: any[];
 
   constructor(private nativeStorage: NativeStorage, public navCtrl: NavController, public navParams: NavParams) {
 
@@ -33,29 +35,27 @@ export class ChatGroupsPage {
       console.log("Rooms:" + JSON.stringify(resp));
       //console.log("Rooms: " + JSON.stringify(this.rooms[0].chats.user));
     });
+
+    this.ref2.on('value', resp => {
+      this.adminRooms = [];
+      this.adminRooms = snapshotToArray(resp);
+      console.log("Admin Rooms:" + JSON.stringify(resp));
+      //console.log("Rooms: " + JSON.stringify(this.rooms[0].chats.user));
+    });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ChatGroupsPage');
-    this.chats = [{
-      imageUrl: 'imgs/cht.png',
-      title: 'Bid Station 101',
-      lastMessage: 'Hey, what happened yesterday?',
-      timestamp: new Date()
-    },
-    {
-      imageUrl: 'imgs/cht.png',
-      title: 'New Subscribers',
-      lastMessage: 'Sup, dude',
-      timestamp: new Date()
-    }
-    ,
-    {
-      imageUrl: 'imgs/cht.png',
-      title: 'General Information',
-      lastMessage: 'You still ow me that pizza.',
-      timestamp: new Date()
-    }];
+  }
+
+  viewchat(key, roomname : string) {
+    console.log("Keys:" + key);
+    console.log("nickname:" + this.nickname);
+    this.navCtrl.setRoot(AdminchatPage, {
+      key:key,
+      nickname:  this.nickname,
+      roomname : roomname
+    });
   }
 
   addRoom() {

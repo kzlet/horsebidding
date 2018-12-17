@@ -3,13 +3,18 @@ import { NavParams,  AlertController, App, LoadingController, NavController, Sli
 import { AngularFireAuth } from '@angular/fire/auth';
 import { HomePage } from '../home/home';
 import { NativeStorage } from '@ionic-native/native-storage';
+import { ProfilePage } from '../profile/profile';
+import { AngularFireDatabase, AngularFireObject  } from '@angular/fire/database';
 
+import { Profile } from '../../models/profile';
 
 @Component({
   selector: 'page-register',
   templateUrl: 'register.html',
 })
 export class RegisterPage {
+
+  profileData: AngularFireObject<Profile>
 
   email : any;
   password : any;
@@ -18,8 +23,9 @@ export class RegisterPage {
   public backgroundImage = 'assets/imgs/bg.png'
   nickname: any;
   conpassword: any;
+ 
 
-  constructor(private nativeStorage: NativeStorage, private fire : AngularFireAuth , public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public app: App) {
+  constructor(private afDatabase : AngularFireDatabase ,private nativeStorage: NativeStorage, private fire : AngularFireAuth , public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public app: App) {
   }
 
   @ViewChild('slider') slider: Slides;
@@ -75,12 +81,6 @@ export class RegisterPage {
       console.log("Done"+ JSON.stringify(data));
 
       console.log("User ID" + JSON.stringify(data.user.uid));
-  
-      //  this.nativeStorage.setItem('nickname', this.nickname)
-      //   .then(
-      //     () => console.log('User Name Stored!'),
-      //     error => console.error('Error storing item', error)
-      //   );
 
         this.nativeStorage.setItem('uuid', data.user.uid)
         .then(
@@ -93,7 +93,7 @@ export class RegisterPage {
         buttons: ['OK']
       });
       alert.present();
-     // this.navCtrl.setRoot(HomePage);
+      this.navCtrl.setRoot(HomePage);
     })
     .catch((error: any) =>{
       console.error(error);
@@ -127,7 +127,7 @@ export class RegisterPage {
           buttons: ['OK']
         });
         alert.present();
-        this.navCtrl.setRoot(HomePage);
+        this.navCtrl.setRoot(ProfilePage);
       })
       .catch((error: any) => console.error(error));
     }

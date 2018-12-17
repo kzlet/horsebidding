@@ -1,0 +1,34 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Paypal Integration</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <form name="paymentForm">
+        <ion-item>
+          <ion-label floating>Amount</ion-label>
+          <ion-input type="number" name="amount" [(ngModel)]="value1"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Currency</ion-label>
+          <ion-select [(ngModel)]="value2" name="currency">
+            <ion-option value="{{currency}}" *ngFor="let currency of currencies">{{currency}}</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Description</ion-label>
+          <ion-input type="text" name="description" [(ngModel)]="value3"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Intent</ion-label>
+          <ion-input type="text" name="intent" [(ngModel)]="value4"></ion-input>
+        </ion-item>
+        <p>
+          <button ion-button block color="secondary" (click)="transaction()">MAKE PAYMENT</button>
+        </p>
+    </form>
+</ion-content>

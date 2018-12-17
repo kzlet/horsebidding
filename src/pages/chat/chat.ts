@@ -38,11 +38,13 @@ export class ChatPage {
   public myPhotosRef: any;
   public myPhoto: any;
   public myPhotoURL: any;
+  image_url: any;
+  audio_url: any;
+  mike_value : any = '0';
 
   constructor(private db : AngularFireDatabase,public modalCtrl: ModalController, private file: File, public platform: Platform, private media: Media, public toastCtrl: ToastController, private camera: Camera, public actionSheetCtrl: ActionSheetController, private nativeStorage: NativeStorage, public navCtrl: NavController, public navParams: NavParams, private fileTransfer: FileTransferObject, private fileChooser: FileChooser, private transfer: FileTransfer) {
     this.myPhotosRef = firebase.storage().ref('/images/');
-    var mike_value = '0';
-    console.log("Mike value" + mike_value);
+    console.log("Mike value" + this.mike_value);
     this.roomkey = this.navParams.get("key") as string;
     this.nickname = this.navParams.get("nickname") as string;
     this.roomname = this.navParams.get("roomname") as string;
@@ -93,21 +95,9 @@ export class ChatPage {
     file.pause();
   }
 
-  uploadAudiotoFirebase() {
-    let newData = firebase.database().ref('chatrooms/' + this.roomkey + '/chats').push();
-    newData.set({
-      type: this.data.type,
-      user: this.data.nickname,
-      voice: "Voice data",
-      sendDate: Date(),
-      message_status: '0'
-    });
-    this.data.message = '';
-  }
-
   sendVoicenote() {
     console.log("Start recording");
-    var mike_value = 1;
+    this.mike_value = '1';
     if (this.platform.is('ios')) {
       this.fileName = 'record' + new Date().getDate() + new Date().getMonth() + new Date().getFullYear() + new Date().getHours() + new Date().getMinutes() + new Date().getSeconds() + '.3gp';
       this.filePath = this.file.documentsDirectory.replace(/file:\/\//g, '') + this.fileName;
@@ -119,18 +109,74 @@ export class ChatPage {
     }
     this.audio.startRecord();
     this.recording = true;
+    let toast = this.toastCtrl.create({
+      message: 'Recording Started !',
+      duration: 2000,
+      position: 'top'
+    });
+
+    toast.present(toast);
   }
 
+
   stopRecord() {
+    this.mike_value = '0';
     console.log("Stop recording");
-    var mike_value = 0;
     this.audio.stopRecord();
     let data = { filename: this.fileName };
     this.audioList.push(data);
     localStorage.setItem("audiolist", JSON.stringify(this.audioList));
     this.recording = false;
+    console.log(this.fileName);
 
-    //testing to upload sounds onto firebase
+    //upload audio to firebase
+    try {
+
+      const metadata = {
+        contentType: 'audio/mp3',
+      };
+
+    let newName = `${new Date().getTime()}.mp3`;
+    const audio = firebase.storage().ref(`audio/${newName}`);
+    audio.putString(this.fileName, 'base64', metadata).then(snapshot => {
+    // console.log(pictures.getDownloadURL);
+    audio.getDownloadURL().then(url=>{
+      console.log("Audio URL: " + url);
+      this.audio_url = url;
+      this.uploadAudiotoFirebase();
+    });
+    }).catch(error => {
+      console.log("Error data"+ JSON.stringify(error));
+      let toast = this.toastCtrl.create({
+        message: 'Recording Stoped due to an Error!',
+        duration: 2000,
+        position: 'top'
+      });
+      toast.present(toast);  
+    });
+
+    let toast = this.toastCtrl.create({
+      message: 'Recording Stoped !',
+      duration: 2000,
+      position: 'top'
+    });
+    toast.present(toast);
+  }
+  catch(error){
+    console.log("Catch error:" + JSON.stringify(error));
+  }
+  }
+
+  uploadAudiotoFirebase() {
+    console.log("Get audio data started" + this.audio_url);
+    let newData = firebase.database().ref('chatrooms/' + this.roomkey + '/chats').push();
+    newData.set({
+      type: this.data.type,
+      user: this.data.nickname,
+      voice: this.audio_url,
+      sendDate: Date()
+    });
+    this.data.message = '';
   }
 
   what() {
@@ -180,13 +226,7 @@ export class ChatPage {
   attachfiles() {
     this.fileChooser.open()
       .then(uri => {
-        console.log(uri)
-        this.nativeStorage.setItem('uri', uri)
-          .then(
-            () => console.log('uri Stored!'),
-            error => console.error('Error storing item', error)
-          );
-
+        console.log(uri);
       })
       .catch(e => {
         console.log(e);
@@ -214,15 +254,11 @@ export class ChatPage {
       const pictures = firebase.storage().ref(`images/${newName}`);
       pictures.putString(result, 'base64', metadata).then(snapshot => {
       // console.log(pictures.getDownloadURL);
-      pictures.getDownloadURL().then(function(url){
+      pictures.getDownloadURL().then(url=>{
         console.log("log1: " + url);
-        return url;
-
-
-        //Add chat data here....
-
+        this.image_url = url;
+        this.uploadChatimage();
       });
-
       }).catch(error => {
         console.log(error);
       });
@@ -232,31 +268,18 @@ export class ChatPage {
     }
   }
 
-  // storeInfoToDatabase(metainfo)
-  // {
-  //   console.log("Store into db called");
-  //   console.log("metainfo" + metainfo);
-  //    let toSave = {
-  //      created : metainfo.timeCreated,
-  //      url : metainfo.downloadURL,
-  //      fullPath : metainfo.fullPath,
-  //      contentType : metainfo.contentType
-  //    }
-  //    console.log(toSave);
-  //    return this.db.list('files').push(toSave);
-  // }
-
-  // getData()
-  // {
-  //   console.log("Get data clicked");
-  //   let ref = this.db.list('files');
-  //   return ref.snapshotChanges()
-  //   .map(changes=> {
-  //     return changes.map( c=> ({ key : c.payload.key}));
-      
-  //     }
-  //   );
-  // }
+  uploadChatimage()
+  {
+    console.log("URL from image upload" + this.image_url);
+    let newData = firebase.database().ref('chatrooms/' + this.roomkey + '/chats').push();
+    newData.set({
+      type: this.data.type,
+      user: this.data.nickname,
+      image: this.image_url,
+      sendDate: Date(),
+    });
+    this.data.message = '';
+  }
 
   private presentToast(text) {
     let toast = this.toastCtrl.create({
@@ -267,36 +290,10 @@ export class ChatPage {
     toast.present();
   }
 
-//   //new example
-//   uploadImage(imageURI) {
-//     return new Promise<any>((resolve, reject) => {
-//       let storageRef = firebase.storage().ref();
-//       let imageRef = storageRef.child('images').child('imageName');
-//       this.encodeImageUri(imageURI, function (image64) {
-//         imageRef.putString(image64, 'data_url')
-//           .then(snapshot => {
-//             resolve(snapshot.downloadURL)
-//           }, err => {
-//             reject(err);
-//           })
-//       })
-//     })
-//   }
-
-//   encodeImageUri(imageUri, callback) {
-//     var c = document.createElement('canvas');
-//     var ctx = c.getContext("2d");
-//     var img = new Image();
-//     img.onload = function () {
-//       var aux: any = this;
-//       c.width = aux.width;
-//       c.height = aux.height;
-//       ctx.drawImage(img, 0, 0);
-//       var dataURL = c.toDataURL("image/jpeg");
-//       callback(dataURL);
-//     };
-//     img.src = imageUri;
-//   }
+  check()
+  {
+    this.navCtrl.push(AudioPage);
+  }
 
  }
 
@@ -312,36 +309,3 @@ export const snapshotToArray = snapshot => {
 };
 
 
-
-// public takePicture(sourceType) {
-//   // Create options for the Camera Dialog
-//   var options = {
-//     quality: 50,
-//     destinationType: this.camera.DestinationType.DATA_URL,
-//     encodingType: this.camera.EncodingType.JPEG,
-//     mediaType: this.camera.MediaType.PICTURE
-//     // sourceType: sourceType,
-//     // saveToPhotoAlbum: false,
-//     // correctOrientation: true
-//   };
-
-//   // Get the data of an image
-//   this.camera.getPicture(options).then((imagePath) => {
-//     // Special handling for Android library
-//    console.log("ImageURL from Source",imagePath)
-//     this.imageURI = imagePath;
-//     console.log("ImageURL ",this.imageURI);
-//     this.uploadImage(this.imageURI);
-//   }, (err) => {
-//     this.presentToast('Error while selecting image.');
-//   });
-//   }
-
-//   private presentToast(text) {
-//     let toast = this.toastCtrl.create({
-//       message: text,
-//       duration: 3000,
-//       position: 'bottom'
-//     });
-//     toast.present();
-//     }
