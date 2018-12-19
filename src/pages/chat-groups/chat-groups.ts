@@ -15,8 +15,9 @@ export class ChatGroupsPage {
   
   ref = firebase.database().ref('chatrooms/');
   ref2 = firebase.database().ref('adminRooms/');
-  nickname: any = 'kumail';
+  nickname: any;
   adminRooms: any[];
+  uuid: any;
 
   constructor(private nativeStorage: NativeStorage, public navCtrl: NavController, public navParams: NavParams) {
 
@@ -27,7 +28,6 @@ export class ChatGroupsPage {
         },
         error => console.error(error)
       );
-
 
     this.ref.on('value', resp => {
       this.rooms = [];
@@ -51,10 +51,11 @@ export class ChatGroupsPage {
   viewchat(key, roomname : string) {
     console.log("Keys:" + key);
     console.log("nickname:" + this.nickname);
+    console.log("UUId from chat groups:" + this.uuid)
     this.navCtrl.setRoot(AdminchatPage, {
       key:key,
       nickname:  this.nickname,
-      roomname : roomname
+      roomname : roomname,
     });
   }
 

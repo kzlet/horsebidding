@@ -115,4 +115,12 @@ page-register {
       margin: 0 auto;
       width: 200px;
     }
+    .has-header{
+      background-image: url('../assets/imgs/bg.png');
+          width: 100%;
+          background-size: 100% 100%;
+          background-repeat: no-repeat;
+          background-position: center center;
+          background-size: cover;
+    }
 }

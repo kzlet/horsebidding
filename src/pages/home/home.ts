@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, MenuController } from 'ionic-angular';
+import { NavController, MenuController, NavParams } from 'ionic-angular';
 import { ChatGroupsPage } from '../chat-groups/chat-groups';
 import { EventsPage } from '../events/events';
 import { FaqPage } from '../faq/faq';
@@ -8,6 +8,8 @@ import { SettingsPage } from '../settings/settings';
 import { ContactPage } from '../contact/contact';
 import * as firebase from 'Firebase';
 import { NativeStorage } from '@ionic-native/native-storage';
+import { AngularFireDatabase, AngularFireObject  } from '@angular/fire/database';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'page-home',
@@ -24,14 +26,12 @@ export class HomePage {
     tweets: 35
   };
   posts: { 'image': string; 'name': string; 'id': string; }[];
-
-  uuid : any = '4SHrPtfbMATuc2jk5MSOHVkqKFJ2';
-  
+  uuid:any;
   ref = firebase.database().ref(`profile/${this.uuid}`);
   username: any[];
- 
+  nickname: any;
 
-  constructor(private nativeStorage: NativeStorage, public navCtrl: NavController, public menuCtrl: MenuController) {
+  constructor(private afDatabase : AngularFireDatabase , private nativeStorage: NativeStorage, private fire : AngularFireAuth , public navCtrl: NavController, public menuCtrl: MenuController) {
     this.posts = [
       { 'image': 'imgs/icon1.png', 'name': 'Chat Groups', 'id': '1' },
       { 'image': 'imgs/icon2.png', 'name': 'Events', 'id': '2' },
@@ -41,26 +41,30 @@ export class HomePage {
       { 'image': 'imgs/icon4.png', 'name': 'Settings', 'id': '6' },
     ]
 
-    this.nativeStorage.getItem('uuid')
-    .then(
-      data => {
-        this.uuid = data;
-      },
-      error => console.error(error)
-    );
+    this.get_nickname();
+  }
 
-    this.ref.on('value', resp => {
-      this.username = [];
-      this.username = snapshotToArray(resp);
-      console.log("data:" + JSON.stringify(this.username));
+  get_nickname()
+  {
+    let currentUser = firebase.auth().currentUser.uid;
+    console.log("Current user" + JSON.stringify(currentUser));
+
+    return this.afDatabase.database.ref(`profile/${currentUser}`).once('value').then((snapshot) =>{
       
-        this.nativeStorage.setItem('nickname', this.username[0])
-        .then(
-          data => console.log('User Name Stored!' + data),
-          error => console.error('Error storing item', error)
-        );
+      this.username = [];
+      this.username = snapshotToArray(snapshot);
+      console.log("data:" + JSON.stringify(this.username[0]));
 
-    });
+      this.nickname = this.username[0];
+      this.nativeStorage.setItem('nickname', this.username[0])
+      .then(
+        data => console.log('User Name Stored!' + data),
+        error => console.error('Error storing item', error)
+      );
+
+
+      return snapshot.val() || 'Anoynymous';
+    })
 
   }
 

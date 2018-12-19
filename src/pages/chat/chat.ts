@@ -10,6 +10,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 import { Media, MediaObject } from '@ionic-native/media';
 import { AudioPage } from '../audio/audio';
 import { AngularFireDatabase } from '@angular/fire/database';
+import { ChatsettingsPage } from '../chatsettings/chatsettings';
 
 @Component({
   selector: 'page-chat',
@@ -41,6 +42,7 @@ export class ChatPage {
   image_url: any;
   audio_url: any;
   mike_value : any = '0';
+  uuid: string;
 
   constructor(private db : AngularFireDatabase,public modalCtrl: ModalController, private file: File, public platform: Platform, private media: Media, public toastCtrl: ToastController, private camera: Camera, public actionSheetCtrl: ActionSheetController, private nativeStorage: NativeStorage, public navCtrl: NavController, public navParams: NavParams, private fileTransfer: FileTransferObject, private fileChooser: FileChooser, private transfer: FileTransfer) {
     this.myPhotosRef = firebase.storage().ref('/images/');
@@ -48,6 +50,15 @@ export class ChatPage {
     this.roomkey = this.navParams.get("key") as string;
     this.nickname = this.navParams.get("nickname") as string;
     this.roomname = this.navParams.get("roomname") as string;
+   
+    this.nativeStorage.getItem('uuid')
+    .then(
+      data => {
+        this.uuid = data;
+      },
+      error => console.error(error)
+    );
+    
     this.data.type = 'message';
     this.data.nickname = this.nickname;
 
@@ -78,7 +89,8 @@ export class ChatPage {
       user: this.data.nickname,
       message: this.data.message,
       sendDate: Date(),
-      message_status: '1'
+      message_status: '1',
+      uuid : this.uuid,
     });
     this.data.message = '';
   }
@@ -277,6 +289,7 @@ export class ChatPage {
       user: this.data.nickname,
       image: this.image_url,
       sendDate: Date(),
+      uuid : this.uuid,
     });
     this.data.message = '';
   }
@@ -293,6 +306,12 @@ export class ChatPage {
   check()
   {
     this.navCtrl.push(AudioPage);
+  }
+
+  settings()
+  {
+    const modal = this.modalCtrl.create(ChatsettingsPage, {roomname : this.roomname});
+    modal.present();
   }
 
  }

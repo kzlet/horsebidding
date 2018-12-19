@@ -1,19 +1,29 @@
 <ion-header>
-  <ion-navbar>
-    <ion-buttons start>
-      <button ion-button icon-only style="color:black" (click)="what()">
-        <ion-icon name="attach"></ion-icon>
-      </button>
-    </ion-buttons>
-    <ion-title>
-      {{roomname}}
-    </ion-title>
-    <ion-buttons end>
-      <button ion-button icon-only style="color:red" (click)="exitChat()"> <!--  exitChat()-->
-        <ion-icon name="exit"></ion-icon>
-      </button>
-    </ion-buttons>
-  </ion-navbar>
+    <ion-navbar>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-2>
+              <ion-buttons start>
+                  <button ion-button icon-only (click)="settings()">
+                      <ion-icon ios="ios-more" md="md-more"></ion-icon>
+                  </button>
+                  </ion-buttons>
+            </ion-col>
+            <ion-col col-8>
+              <ion-title>
+                  <div align="center">{{roomname}}</div>
+              </ion-title>
+            </ion-col>
+            <ion-col col-2>
+                <ion-buttons end>
+                    <button ion-button icon-only style="color:red" (click)="exitChat()">
+                        <ion-icon name="exit"></ion-icon>
+                    </button>
+                  </ion-buttons>
+            </ion-col>
+        </ion-row>
+      </ion-grid>
+      </ion-navbar>
 </ion-header>
 
 <ion-content>
@@ -32,7 +42,7 @@
             <span class="msg-date">{{chat.sendDate | date:'short'}}</span>
             <p *ngIf="!chat.voice && !chat.image" text-wrap>{{chat.message}}</p>
            
-            <div *ngIf="chat.voice">
+            <!-- <div *ngIf="chat.voice">
 
               <div align="left">
               <ion-buttons start>
@@ -47,7 +57,7 @@
                 </button>
               </ion-buttons>
 
-            </div>
+            </div> -->
 
             <div *ngIf="chat.image">
             <img src="{{chat.image}}" class="thumb-img" imageViewer/>
@@ -61,7 +71,7 @@
             <span class="msg-date">{{chat.sendDate | date:'short'}}</span>
             <p *ngIf="!chat.voice && !chat.image" text-wrap>{{chat.message}}</p>
             
-            <div *ngIf="chat.voice">
+            <!-- <div *ngIf="chat.voice">
 
                 <div align="left">
                 <ion-buttons start>
@@ -76,7 +86,7 @@
                   </button>
                 </ion-buttons>
   
-              </div>
+              </div> -->
 
               <div *ngIf="chat.image">
                   <img src="{{chat.image}}" class="thumb-img" imageViewer/>
@@ -93,10 +103,7 @@
     <ion-row>
 
       <ion-col col-2>
-        <div *ngIf="!data.message">
-          <ion-icon *ngIf="mike_value === '1' || mike_value === 1" style="color:red" name="ios-microphone" (click)="stopRecord()"></ion-icon>
-          <ion-icon *ngIf="mike_value === '0' || mike_value === 0" style="color:green" name="ios-microphone" (click)="sendVoicenote()"></ion-icon>
-        </div>
+          <ion-icon name="attach" (click)="what()"></ion-icon>
       </ion-col>
 
       <ion-col col-8 style="background-color: gainsboro;border-radius: 12px 12px;">
@@ -104,14 +111,8 @@
       </ion-col>
 
       <ion-col col-2>
-        <ion-icon *ngIf="data.message" name="paper-plane" (click)="sendMessage()"></ion-icon>
+        <ion-icon name="paper-plane" (click)="sendMessage()"></ion-icon>
       </ion-col>
-
-      <!-- <ion-col col-2  *ngIf="!data.message" style="margin-left: 55px;"> 
-        <ion-icon *ngIf="mike_value === '1'" style="color:red" name="ios-microphone" (click)="stopRecord()"></ion-icon>
-        <ion-icon *ngIf="mike_value === '0'"  style="color:green" name="ios-microphone" (click)="sendVoicenote()"></ion-icon>
-      </ion-col> -->
-
 
     </ion-row>
   </ion-grid>

@@ -5,12 +5,47 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content class="has-header" padding>
 
-    <ion-item>
+  <div *ngIf="value === 1 || value === '1'">
+  <ion-list style="background-color:transparent">
+    <ion-item style="background-color:transparent">
       <ion-label floating>Username</ion-label>
       <ion-input type="text" [(ngModel)]="profile.username"></ion-input>
     </ion-item>
+  </ion-list>
+  <div align="center">
+    <button ion-button round full style="width:75%" (click)="updateProfile()">Update</button>
+  </div>
+</div>
 
-<button ion-button clear (click)="updateProfile()">Update</button>
+
+<div *ngIf="value === 2 || value === '2'">
+    <form name="paymentForm">
+        <ion-item style="border-radius:12px 12px; padding-top:5px">
+          <ion-label floating>Amount</ion-label>
+          <ion-input type="number" name="amount" [(ngModel)]="value1"></ion-input>
+        </ion-item>
+        <ion-item style="border-radius:12px 12px; padding-top:5px">
+          <ion-label floating>Currency</ion-label>
+          <ion-select [(ngModel)]="value2" name="currency">
+            <ion-option value="{{currency}}" *ngFor="let currency of currencies">{{currency}}</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item style="border-radius:12px 12px; padding-top:5px">
+          <ion-label floating>Description</ion-label>
+          <ion-input type="text" name="description" [(ngModel)]="value3"></ion-input>
+        </ion-item>
+        <ion-item style="border-radius:12px 12px; padding-top:5px">
+          <ion-label floating>Intent</ion-label>
+          <ion-input type="text" name="intent" [(ngModel)]="value4"></ion-input>
+        </ion-item>
+        <div align="center">
+          <button ion-button round full color="secondary" style="width:75%" (click)="transaction()">MAKE PAYMENT</button>
+        </div>
+    </form>
+</div>
 </ion-content>
+<ion-footer style="background-color:black">
+  <div align="center" (click)="next()"><p style="color:white">Proceed Forward</p></div>
+</ion-footer>

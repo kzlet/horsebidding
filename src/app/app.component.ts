@@ -30,7 +30,7 @@ var config = {
 })
 export class MyApp {
   @ViewChild('nav') nav: NavController;
-  rootPage:any = RegisterPage; //HomePage
+  rootPage:any = RegisterPage; //HomePage RegisterPage
   
   home = HomePage;
   bookie = BookieOfferPage;

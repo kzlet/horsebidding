@@ -39,6 +39,10 @@ import { PaypalPage } from '../pages/paypal/paypal';
 import { PayPal, PayPalPayment, PayPalConfiguration } from '@ionic-native/paypal';
 import { ProfilePage } from '../pages/profile/profile';
 
+//Image View
+import { IonicImageViewerModule } from 'ionic-img-viewer';
+import { ChatsettingsPage } from '../pages/chatsettings/chatsettings';
+
 //kumail-horse (firebase project name)
 const firebaseAuth = {
   apiKey: "AIzaSyBu6m7gEDyIHPLEFaIw87Nkikf9t8F9H_U",
@@ -67,14 +71,16 @@ const firebaseAuth = {
     AudioPage,
     AdminchatPage,
     PaypalPage,
-    ProfilePage
+    ProfilePage,
+    ChatsettingsPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseAuth),
     AngularFireAuthModule,
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    IonicImageViewerModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -92,7 +98,8 @@ const firebaseAuth = {
     AudioPage,
     AdminchatPage,
     PaypalPage,
-    ProfilePage
+    ProfilePage,
+    ChatsettingsPage
   ],
   providers: [
     StatusBar,

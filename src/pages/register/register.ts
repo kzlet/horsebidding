@@ -23,7 +23,7 @@ export class RegisterPage {
   public backgroundImage = 'assets/imgs/bg.png'
   nickname: any;
   conpassword: any;
- 
+  value : any = '1';
 
   constructor(private afDatabase : AngularFireDatabase ,private nativeStorage: NativeStorage, private fire : AngularFireAuth , public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public app: App) {
   }
@@ -144,5 +144,25 @@ else{
 
   resetPassword() {
     this.presentLoading('An e-mail was sent with your new password.');
+  }
+
+  registerpage()
+  {
+    this.value = '2';
+  }
+
+  loginpage()
+  {
+    this.value = '1';
+  }
+
+  forget()
+  {
+    this.value = '3';
+  }
+
+  backto()
+  {
+    this.value= '1';
   }
 }

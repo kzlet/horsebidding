@@ -1,0 +1,23 @@
+<ion-header>
+    <ion-navbar>
+      <ion-title>{{roomname}}</ion-title>
+      <ion-buttons end>
+        <button ion-button (click)="close()"><p>Close</p></button>
+        </ion-buttons>
+    </ion-navbar>
+  </ion-header>
+
+
+<ion-content padding>
+
+  <ion-list>
+
+        <ion-item>
+          <ion-label>Mute Notifications</ion-label>
+          <ion-toggle [(ngModel)]="notifications"></ion-toggle>
+        </ion-item>
+
+
+  </ion-list>
+
+</ion-content>
