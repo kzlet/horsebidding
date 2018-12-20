@@ -32,14 +32,15 @@ export class ChatGroupsPage {
     this.ref.on('value', resp => {
       this.rooms = [];
       this.rooms = snapshotToArray(resp);
-      console.log("Rooms:" + JSON.stringify(resp));
+      console.log(this.rooms.length);
+    //  console.log("Rooms:" + JSON.stringify(resp));
       //console.log("Rooms: " + JSON.stringify(this.rooms[0].chats.user));
     });
 
     this.ref2.on('value', resp => {
       this.adminRooms = [];
       this.adminRooms = snapshotToArray(resp);
-      console.log("Admin Rooms:" + JSON.stringify(resp));
+    //  console.log("Admin Rooms:" + JSON.stringify(resp));
       //console.log("Rooms: " + JSON.stringify(this.rooms[0].chats.user));
     });
   }

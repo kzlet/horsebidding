@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams, Content, ActionSheetController, ToastController, Platform, ModalController } from 'ionic-angular';
 import * as firebase from 'Firebase';
 import { ChatGroupsPage } from '../chat-groups/chat-groups';
-import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { File } from '@ionic-native/file';
 import { NativeStorage } from '@ionic-native/native-storage';
@@ -95,101 +95,101 @@ export class ChatPage {
     this.data.message = '';
   }
 
-  play(voice: string) {
-    var voice = 'https://purpledimes.com/mobile_app/lst/images/sample.mp3';
-    const file: MediaObject = this.media.create(voice);
-    file.play();
-  }
+  // play(voice: string) {
+  //   var voice = 'https://purpledimes.com/mobile_app/lst/images/sample.mp3';
+  //   const file: MediaObject = this.media.create(voice);
+  //   file.play();
+  // }
 
-  pause(voice: string) {
-    var voice = 'https://purpledimes.com/mobile_app/lst/images/sample.mp3';
-    const file: MediaObject = this.media.create(voice);
-    file.pause();
-  }
+  // pause(voice: string) {
+  //   var voice = 'https://purpledimes.com/mobile_app/lst/images/sample.mp3';
+  //   const file: MediaObject = this.media.create(voice);
+  //   file.pause();
+  // }
 
-  sendVoicenote() {
-    console.log("Start recording");
-    this.mike_value = '1';
-    if (this.platform.is('ios')) {
-      this.fileName = 'record' + new Date().getDate() + new Date().getMonth() + new Date().getFullYear() + new Date().getHours() + new Date().getMinutes() + new Date().getSeconds() + '.3gp';
-      this.filePath = this.file.documentsDirectory.replace(/file:\/\//g, '') + this.fileName;
-      this.audio = this.media.create(this.filePath);
-    } else if (this.platform.is('android')) {
-      this.fileName = 'record' + new Date().getDate() + new Date().getMonth() + new Date().getFullYear() + new Date().getHours() + new Date().getMinutes() + new Date().getSeconds() + '.3gp';
-      this.filePath = this.file.externalDataDirectory.replace(/file:\/\//g, '') + this.fileName;
-      this.audio = this.media.create(this.filePath);
-    }
-    this.audio.startRecord();
-    this.recording = true;
-    let toast = this.toastCtrl.create({
-      message: 'Recording Started !',
-      duration: 2000,
-      position: 'top'
-    });
+  // sendVoicenote() {
+  //   console.log("Start recording");
+  //   this.mike_value = '1';
+  //   if (this.platform.is('ios')) {
+  //     this.fileName = 'record' + new Date().getDate() + new Date().getMonth() + new Date().getFullYear() + new Date().getHours() + new Date().getMinutes() + new Date().getSeconds() + '.3gp';
+  //     this.filePath = this.file.documentsDirectory.replace(/file:\/\//g, '') + this.fileName;
+  //     this.audio = this.media.create(this.filePath);
+  //   } else if (this.platform.is('android')) {
+  //     this.fileName = 'record' + new Date().getDate() + new Date().getMonth() + new Date().getFullYear() + new Date().getHours() + new Date().getMinutes() + new Date().getSeconds() + '.3gp';
+  //     this.filePath = this.file.externalDataDirectory.replace(/file:\/\//g, '') + this.fileName;
+  //     this.audio = this.media.create(this.filePath);
+  //   }
+  //   this.audio.startRecord();
+  //   this.recording = true;
+  //   let toast = this.toastCtrl.create({
+  //     message: 'Recording Started !',
+  //     duration: 2000,
+  //     position: 'top'
+  //   });
 
-    toast.present(toast);
-  }
+  //   toast.present(toast);
+  // }
 
 
-  stopRecord() {
-    this.mike_value = '0';
-    console.log("Stop recording");
-    this.audio.stopRecord();
-    let data = { filename: this.fileName };
-    this.audioList.push(data);
-    localStorage.setItem("audiolist", JSON.stringify(this.audioList));
-    this.recording = false;
-    console.log(this.fileName);
+  // stopRecord() {
+  //   this.mike_value = '0';
+  //   console.log("Stop recording");
+  //   this.audio.stopRecord();
+  //   let data = { filename: this.fileName };
+  //   this.audioList.push(data);
+  //   localStorage.setItem("audiolist", JSON.stringify(this.audioList));
+  //   this.recording = false;
+  //   console.log(this.fileName);
 
-    //upload audio to firebase
-    try {
+  //   //upload audio to firebase
+  //   try {
 
-      const metadata = {
-        contentType: 'audio/mp3',
-      };
+  //     const metadata = {
+  //       contentType: 'audio/mp3',
+  //     };
 
-    let newName = `${new Date().getTime()}.mp3`;
-    const audio = firebase.storage().ref(`audio/${newName}`);
-    audio.putString(this.fileName, 'base64', metadata).then(snapshot => {
-    // console.log(pictures.getDownloadURL);
-    audio.getDownloadURL().then(url=>{
-      console.log("Audio URL: " + url);
-      this.audio_url = url;
-      this.uploadAudiotoFirebase();
-    });
-    }).catch(error => {
-      console.log("Error data"+ JSON.stringify(error));
-      let toast = this.toastCtrl.create({
-        message: 'Recording Stoped due to an Error!',
-        duration: 2000,
-        position: 'top'
-      });
-      toast.present(toast);  
-    });
+  //   let newName = `${new Date().getTime()}.mp3`;
+  //   const audio = firebase.storage().ref(`audio/${newName}`);
+  //   audio.putString(this.fileName, 'base64', metadata).then(snapshot => {
+  //   // console.log(pictures.getDownloadURL);
+  //   audio.getDownloadURL().then(url=>{
+  //     console.log("Audio URL: " + url);
+  //     this.audio_url = url;
+  //     this.uploadAudiotoFirebase();
+  //   });
+  //   }).catch(error => {
+  //     console.log("Error data"+ JSON.stringify(error));
+  //     let toast = this.toastCtrl.create({
+  //       message: 'Recording Stoped due to an Error!',
+  //       duration: 2000,
+  //       position: 'top'
+  //     });
+  //     toast.present(toast);  
+  //   });
 
-    let toast = this.toastCtrl.create({
-      message: 'Recording Stoped !',
-      duration: 2000,
-      position: 'top'
-    });
-    toast.present(toast);
-  }
-  catch(error){
-    console.log("Catch error:" + JSON.stringify(error));
-  }
-  }
+  //   let toast = this.toastCtrl.create({
+  //     message: 'Recording Stoped !',
+  //     duration: 2000,
+  //     position: 'top'
+  //   });
+  //   toast.present(toast);
+  // }
+  // catch(error){
+  //   console.log("Catch error:" + JSON.stringify(error));
+  // }
+  // }
 
-  uploadAudiotoFirebase() {
-    console.log("Get audio data started" + this.audio_url);
-    let newData = firebase.database().ref('chatrooms/' + this.roomkey + '/chats').push();
-    newData.set({
-      type: this.data.type,
-      user: this.data.nickname,
-      voice: this.audio_url,
-      sendDate: Date()
-    });
-    this.data.message = '';
-  }
+  // uploadAudiotoFirebase() {
+  //   console.log("Get audio data started" + this.audio_url);
+  //   let newData = firebase.database().ref('chatrooms/' + this.roomkey + '/chats').push();
+  //   newData.set({
+  //     type: this.data.type,
+  //     user: this.data.nickname,
+  //     voice: this.audio_url,
+  //     sendDate: Date()
+  //   });
+  //   this.data.message = '';
+  // }
 
   what() {
     const actionSheet = this.actionSheetCtrl.create({

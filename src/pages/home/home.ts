@@ -28,8 +28,11 @@ export class HomePage {
   posts: { 'image': string; 'name': string; 'id': string; }[];
   uuid:any;
   ref = firebase.database().ref(`profile/${this.uuid}`);
+  ref2 = firebase.database().ref('chatrooms/');
   username: any[];
   nickname: any;
+  rooms: any[];
+  chatboxes: number;
 
   constructor(private afDatabase : AngularFireDatabase , private nativeStorage: NativeStorage, private fire : AngularFireAuth , public navCtrl: NavController, public menuCtrl: MenuController) {
     this.posts = [
@@ -40,6 +43,13 @@ export class HomePage {
       { 'image': 'imgs/icon3.png', 'name': 'Bookie Offer', 'id': '5' },
       { 'image': 'imgs/icon4.png', 'name': 'Settings', 'id': '6' },
     ]
+
+    this.ref2.on('value', resp => {
+      this.rooms = [];
+      this.rooms = snapshotToArray2(resp);
+      console.log(this.rooms.length);
+      this.chatboxes = this.rooms.length;
+    });
 
     this.get_nickname();
   }
@@ -104,6 +114,18 @@ export const snapshotToArray = snapshot => {
   snapshot.forEach(childSnapshot => {
       let item = childSnapshot.val();
      // item.key = childSnapshot.key;
+      returnArr.push(item);
+  });
+
+  return returnArr;
+};
+
+export const snapshotToArray2 = snapshot => {
+  let returnArr = [];
+
+  snapshot.forEach(childSnapshot => {
+      let item = childSnapshot.val();
+      item.key = childSnapshot.key;
       returnArr.push(item);
   });
 
