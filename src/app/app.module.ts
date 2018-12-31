@@ -13,6 +13,7 @@ import { EventsPage } from '../pages/events/events';
 import { FaqPage } from '../pages/faq/faq';
 import { SettingsPage } from '../pages/settings/settings';
 import { NativeStorage } from '@ionic-native/native-storage';
+import { HttpModule } from '@angular/http';
 
 //firebase setup
 import { AngularFireModule } from '@angular/fire';
@@ -76,6 +77,7 @@ const firebaseAuth = {
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseAuth),
     AngularFireAuthModule,

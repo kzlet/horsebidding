@@ -16,8 +16,8 @@ export class PaypalPage {
   currencies = ['EUR', 'USD'];
   payPalEnvironment: string = 'payPalEnvironmentSandbox';
 
-  payPalEnvironmentSandbox : any = 'AXg409-ZD7lFcgk2JdHkLkggX8u7LnT7cfkGL2AG0y7bx5OAvOmErpKKz5D68kzXRxbfe_KRlFf681rk';
-  payPalEnvironmentProduction: any  = '';
+  payPalEnvironmentSandbox : any = 'AXg409-ZD7lFcgk2JdHkLkggX8u7LnT7cfkGL2AG0y7bx5OAvOmErpKKz5D68kzXRxbfe_KRlFf681rk'; //AXg409-ZD7lFcgk2JdHkLkggX8u7LnT7cfkGL2AG0y7bx5OAvOmErpKKz5D68kzXRxbfe_KRlFf681rk
+  payPalEnvironmentProduction: any  = 'Ae_yYVBvPLUGWbnmawXOpZ-9oo7qzxg4JU8FkVNqsG1j_7p3mhlmMkk0kULL9Cd4Y-sghBemSj3VgMym';
  
   constructor(private payPal: PayPal, public navCtrl: NavController, public navParams: NavParams) {
     

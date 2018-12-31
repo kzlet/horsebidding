@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, MenuController, NavParams } from 'ionic-angular';
+import { NavController, MenuController, NavParams, AlertController } from 'ionic-angular';
 import { ChatGroupsPage } from '../chat-groups/chat-groups';
 import { EventsPage } from '../events/events';
 import { FaqPage } from '../faq/faq';
@@ -10,6 +10,7 @@ import * as firebase from 'Firebase';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { AngularFireDatabase, AngularFireObject  } from '@angular/fire/database';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { PaypalPage } from '../paypal/paypal';
 
 @Component({
   selector: 'page-home',
@@ -30,11 +31,12 @@ export class HomePage {
   ref = firebase.database().ref(`profile/${this.uuid}`);
   ref2 = firebase.database().ref('chatrooms/');
   username: any[];
-  nickname: any;
+  nickname: any = 'henry';
   rooms: any[];
   chatboxes: number;
+  pay_status: any = '1';
 
-  constructor(private afDatabase : AngularFireDatabase , private nativeStorage: NativeStorage, private fire : AngularFireAuth , public navCtrl: NavController, public menuCtrl: MenuController) {
+  constructor(public alertCtrl: AlertController, private afDatabase : AngularFireDatabase , private nativeStorage: NativeStorage, private fire : AngularFireAuth , public navCtrl: NavController, public menuCtrl: MenuController) {
     this.posts = [
       { 'image': 'imgs/icon1.png', 'name': 'Chat Groups', 'id': '1' },
       { 'image': 'imgs/icon2.png', 'name': 'Events', 'id': '2' },
@@ -51,7 +53,25 @@ export class HomePage {
       this.chatboxes = this.rooms.length;
     });
 
-    this.get_nickname();
+    //this.get_nickname(); 
+    this.nativeStorage.getItem('nickname')
+    .then(
+      data => {
+        console.log("Checking for playerid:" + data);
+        this.nickname = data;
+      },
+      error => console.error(error)
+    );
+
+    this.nativeStorage.getItem('pay_status')
+    .then(
+      data => {
+        console.log("Checking for playerid:" + data);
+        this.pay_status = data;
+      },
+      error => console.error(error)
+    );
+
   }
 
   get_nickname()
@@ -86,6 +106,19 @@ export class HomePage {
     this.selected = index;
     console.log("Id:" + id);
 
+    if(this.pay_status === '0')
+    {
+      let alert = this.alertCtrl.create({
+        title: 'User Restriction',
+        subTitle: 'Please pay to use our services, Thank You',
+        buttons: ['OK']
+      });
+      alert.present();
+      this.navCtrl.push(PaypalPage);
+    }
+
+    else{
+
     if (id === '1') {
       this.navCtrl.setRoot(ChatGroupsPage);
     }
@@ -104,6 +137,7 @@ export class HomePage {
     else if (id === '6') {
       this.navCtrl.setRoot(SettingsPage);
     }
+  }
 
   }
 
