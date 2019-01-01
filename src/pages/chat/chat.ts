@@ -43,6 +43,7 @@ export class ChatPage {
   audio_url: any;
   mike_value : any = '0';
   uuid: string;
+  room_image: string;
 
   constructor(private db : AngularFireDatabase,public modalCtrl: ModalController, private file: File, public platform: Platform, private media: Media, public toastCtrl: ToastController, private camera: Camera, public actionSheetCtrl: ActionSheetController, private nativeStorage: NativeStorage, public navCtrl: NavController, public navParams: NavParams, private fileTransfer: FileTransferObject, private fileChooser: FileChooser, private transfer: FileTransfer) {
     this.myPhotosRef = firebase.storage().ref('/images/');
@@ -50,6 +51,7 @@ export class ChatPage {
     this.roomkey = this.navParams.get("key") as string;
     this.nickname = this.navParams.get("nickname") as string;
     this.roomname = this.navParams.get("roomname") as string;
+    this.room_image = this.navParams.get("room_image") as string;
    
     this.nativeStorage.getItem('uuid')
     .then(
@@ -310,7 +312,7 @@ export class ChatPage {
 
   settings()
   {
-    const modal = this.modalCtrl.create(ChatsettingsPage, {roomname : this.roomname});
+    const modal = this.modalCtrl.create(ChatsettingsPage, {roomname : this.roomname, room_image: this.room_image});
     modal.present();
   }
 

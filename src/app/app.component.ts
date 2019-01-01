@@ -15,6 +15,10 @@ import { SettingsPage } from '../pages/settings/settings';
 import * as firebase from 'firebase';
 import { PaypalPage } from '../pages/paypal/paypal';
 
+//for Push notifications
+import { OneSignal } from '@ionic-native/onesignal';
+import { NativeStorage } from '@ionic-native/native-storage';
+
 // Initialize Firebase  kumail-horse (Firebase project name)
 var config = {
   apiKey: "AIzaSyBu6m7gEDyIHPLEFaIw87Nkikf9t8F9H_U",
@@ -30,7 +34,7 @@ var config = {
 })
 export class MyApp {
   @ViewChild('nav') nav: NavController;
-  rootPage:any = RegisterPage; //HomePage RegisterPage
+  rootPage:any = HomePage; //HomePage RegisterPage
   
   home = HomePage;
   bookie = BookieOfferPage;
@@ -39,12 +43,13 @@ export class MyApp {
   event = EventsPage; 
   faq = FaqPage;
   
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private menuCtrl: MenuController) {
+  constructor(public nativeStorage : NativeStorage, private oneSignal: OneSignal, platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private menuCtrl: MenuController) {
     platform.ready().then(() => {
       statusBar.styleDefault();
       splashScreen.hide();
     });
     firebase.initializeApp(config);
+    this.get_onesignal();
   }
 
   openPage(page) {
@@ -72,6 +77,31 @@ export class MyApp {
   {
     this.nav.setRoot(SettingsPage);
     this.menuCtrl.close();
+  }
+
+  get_onesignal()
+  {
+     //OneSignal ID 
+     this.oneSignal.startInit('f1f10d1f-7893-4016-9449-0ee9ebc2fc58','896600085936');
+     this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.InAppAlert);
+     this.oneSignal.handleNotificationReceived().subscribe(() => {
+      // do something when notification is received
+     });
+     this.oneSignal.handleNotificationOpened().subscribe(() => {
+     });
+     this.oneSignal.endInit();
+
+     this.oneSignal.getIds().then(identity => {
+      console.log(identity.userId + 'its USERID');
+  
+     // this.uuid_code = identity.userId;
+  
+      this.nativeStorage.setItem('playerid', identity.userId)
+        .then(
+          () => console.log('playerid Stored!'),
+          error => console.error('Error storing item', error)
+        );
+    });
   }
 }
 

@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, LoadingController } from 'ionic-angular';
 import * as firebase from 'Firebase';
 import { ChatPage } from '../chat/chat';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { AddroomPage } from '../addroom/addroom';
 import { AdminchatPage } from '../adminchat/adminchat';
+import { Http } from '@angular/http';
+import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'page-chat-groups',
@@ -18,9 +20,11 @@ export class ChatGroupsPage {
   nickname: any;
   adminRooms: any[];
   uuid: any;
+  user_id: any;
+  posts: any;
+  apiUrl: string;
 
-  constructor(private nativeStorage: NativeStorage, public navCtrl: NavController, public navParams: NavParams) {
-
+  constructor(public loadingCtrl: LoadingController ,private http: Http, private nativeStorage: NativeStorage, public navCtrl: NavController, public navParams: NavParams) {
     this.nativeStorage.getItem('nickname')
       .then(
         data => {
@@ -29,19 +33,24 @@ export class ChatGroupsPage {
         error => console.error(error)
       );
 
+      this.nativeStorage.getItem('user_id')
+      .then(
+        data => {
+          this.user_id = data;
+          this.get_chatrooms();
+        },
+        error => console.error(error)
+      );
+
     this.ref.on('value', resp => {
       this.rooms = [];
       this.rooms = snapshotToArray(resp);
       console.log(this.rooms.length);
-    //  console.log("Rooms:" + JSON.stringify(resp));
-      //console.log("Rooms: " + JSON.stringify(this.rooms[0].chats.user));
     });
 
     this.ref2.on('value', resp => {
       this.adminRooms = [];
       this.adminRooms = snapshotToArray(resp);
-    //  console.log("Admin Rooms:" + JSON.stringify(resp));
-      //console.log("Rooms: " + JSON.stringify(this.rooms[0].chats.user));
     });
   }
 
@@ -64,16 +73,40 @@ export class ChatGroupsPage {
     this.navCtrl.push(AddroomPage);
   }
 
-  joinRoom(key, roomname : string) {
+  joinRoom(key, roomname : string, room_image : string) {
     console.log("Keys:" + key);
     console.log("nickname:" + this.nickname);
     this.navCtrl.setRoot(ChatPage, {
       key:key,
       nickname:  this.nickname,
-      roomname : roomname
+      roomname : roomname,
+      room_image: room_image
     });
   }
 
+  get_chatrooms()
+  {
+    let loader = this.loadingCtrl.create({
+      content: "Loading Chat Rooms..."
+    });
+    loader.present();
+    this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/get_chatrooms.php?id=' + this.user_id;
+
+    console.log(this.apiUrl);
+
+    this.http.get(this.apiUrl).map(res => res.json())
+      .subscribe(data => {
+        this.posts = data;
+        if (this.posts === undefined || this.posts === 'undefined') {
+          alert("No Chat Rooms assigned to you yet !");
+          loader.dismiss();
+        }
+        else
+          loader.dismiss();
+      }, error => {
+        console.log(error); // Error getting the data
+      });
+  }
 }
 
 export const snapshotToArray = snapshot => {

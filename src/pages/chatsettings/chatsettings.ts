@@ -7,9 +7,11 @@ import { NavController, NavParams, ViewController } from 'ionic-angular';
 })
 export class ChatsettingsPage {
   roomname: any;
+  room_image: any;
 
   constructor(private view: ViewController, public navCtrl: NavController, public navParams: NavParams) {
     this.roomname = this.navParams.get('roomname');
+    this.room_image = this.navParams.get('room_image');
   }
 
   ionViewDidLoad() {

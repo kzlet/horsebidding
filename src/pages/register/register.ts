@@ -1,10 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavParams,  AlertController, App, LoadingController, NavController, Slides, } from 'ionic-angular';
+import { NavParams, AlertController, App, LoadingController, NavController, Slides, } from 'ionic-angular';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { HomePage } from '../home/home';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { ProfilePage } from '../profile/profile';
-import { AngularFireDatabase, AngularFireObject  } from '@angular/fire/database';
+import { AngularFireDatabase, AngularFireObject } from '@angular/fire/database';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Profile } from '../../models/profile';
@@ -17,19 +17,28 @@ export class RegisterPage {
 
   profileData: AngularFireObject<Profile>
 
-  email : any;
-  password : any;
+  email: any;
+  password: any;
 
   public loginForm: any;
   public backgroundImage = 'assets/imgs/bg.png'
   nickname: any;
   conpassword: any;
-  value : any = '1';
+  value: any = '1';
   name: any;
   apiUrl: string;
-  playerid: any = 'u8sernviosjefklewekr89';
+  playerid: any;
+  fire_uuid: any;
 
-  constructor(private http: Http, private afDatabase : AngularFireDatabase ,private nativeStorage: NativeStorage, private fire : AngularFireAuth , public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public app: App) {
+  constructor(private http: Http, private afDatabase: AngularFireDatabase, private nativeStorage: NativeStorage, private fire: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public app: App) {
+    this.nativeStorage.getItem('playerid')
+    .then(
+      data => {
+        console.log("Checking for playerid:" + data);
+        this.playerid = data;
+      },
+      error => console.error(error)
+    );
   }
 
   @ViewChild('slider') slider: Slides;
@@ -40,8 +49,7 @@ export class RegisterPage {
   }
 
 
-  go()
-  {
+  go() {
     this.navCtrl.push(HomePage);
   }
 
@@ -79,201 +87,242 @@ export class RegisterPage {
     loading.present();
   }
 
-  // login() {
-  //   this.fire.auth.signInWithEmailAndPassword(this.email, this.password)
-  //   .then(data => {
-  //     console.log("Done"+ JSON.stringify(data));
+  firebase_login() {
+    this.fire.auth.signInWithEmailAndPassword(this.email, this.password)
+      .then(data => {
+        console.log("Done" + JSON.stringify(data));
 
-  //     console.log("User ID" + JSON.stringify(data.user.uid));
+        console.log("User ID" + JSON.stringify(data.user.uid));
 
-  //       this.nativeStorage.setItem('uuid', data.user.uid)
-  //       .then(
-  //         () => console.log('UUID Stored!'),
-  //         error => console.error('Error storing item', error)
-  //       );
-  
-  //     const alert = this.alertCtrl.create({
-  //       title: 'Welcome to the App',
-  //       buttons: ['OK']
-  //     });
-  //     alert.present();
-  //     this.navCtrl.setRoot(HomePage);
-  //   })
-  //   .catch((error: any) =>{
-  //     console.error(error);
-  //     const alert = this.alertCtrl.create({
-  //       title: 'Error',
-  //       subTitle: error,
-  //       buttons: ['OK']
-  //     });
-  //     alert.present();
-  //   }
-  //     );
-    
-  // }
+        this.nativeStorage.setItem('uuid', data.user.uid)
+          .then(
+            () => console.log('UUID Stored!'),
+            error => console.error('Error storing item', error)
+          );
+
+        this.login();
+
+        // const alert = this.alertCtrl.create({
+        //   title: 'Welcome to the App',
+        //   buttons: ['OK']
+        // });
+        // alert.present();
+        // this.navCtrl.setRoot(HomePage);
+      })
+      .catch((error: any) => {
+        console.error(error);
+        const alert = this.alertCtrl.create({
+          title: 'Error',
+          subTitle: error,
+          buttons: ['OK']
+        });
+        alert.present();
+      }
+      );
+
+  }
 
 
-  login()
-  {
-      this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/user_login.php?email=' + this.email + '&password=' + this.password;
-      console.log(this.apiUrl)
-  
-       if (this.email === undefined || this.password === undefined) {
-         let alert = this.alertCtrl.create({
-           title: 'Sign-in Error',
-           subTitle: 'Email and Password Required',
-           buttons: ['OK']
-         });
-         alert.present();
-         return;
-       }
-       let loader = this.loadingCtrl.create({
-         content: "Signing In..."
-       });
-       loader.present();
-   
-       console.log(this.apiUrl);
-  
-       this.http.get(this.apiUrl).map(res => res.json())
-       .subscribe(data => {
-   
-         console.log(data);
-         loader.dismissAll();
-  
-         var str = data.Status;
-  
-         if (str === 'success') {
-  
+  login() {
+    this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/user_login.php?email=' + this.email + '&password=' + this.password;
+    console.log(this.apiUrl)
+
+    if (this.email === undefined || this.password === undefined) {
+      let alert = this.alertCtrl.create({
+        title: 'Sign-in Error',
+        subTitle: 'Email and Password Required',
+        buttons: ['OK']
+      });
+      alert.present();
+      return;
+    }
+    let loader = this.loadingCtrl.create({
+      content: "Signing In..."
+    });
+    loader.present();
+
+    console.log(this.apiUrl);
+
+    this.http.get(this.apiUrl).map(res => res.json())
+      .subscribe(data => {
+
+        console.log(data);
+        loader.dismissAll();
+
+        var str = data.Status;
+
+        if (str === 'success') {
+
+          this.nativeStorage.setItem('user_id', data.id)
+          .then(
+            () => console.log('User id Stored!'),
+            error => console.error('Error storing item', error)
+          );
+
+          this.nativeStorage.setItem('email', data.email)
+            .then(
+              () => console.log('User Email Stored!'),
+              error => console.error('Error storing item', error)
+            );
+
+          this.nativeStorage.setItem('nickname', data.name)
+            .then(
+              () => console.log('name Stored!'),
+              error => console.error('Error storing item', error)
+            );
+
+          this.nativeStorage.setItem('pay_status', data.pay_status)
+            .then(
+              () => console.log('name Stored!'),
+              error => console.error('Error storing item', error)
+            );
+
+          if (data.fire_UID === '' || data.fire_UID === 'undefined' || data.fire_UID === undefined || data.fire_UID === 'Null' || data.fire_UID === null) {
+        
+            this.nativeStorage.getItem('uuid')
+              .then(
+                data => {
+                  console.log("Checking for playerid:" + data);
+                  this.fire_uuid = data;
+                    console.log("UUID when fire_UID: " + this.fire_uuid);
+                    this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/register_uid.php?email=' + this.email + '&fire_UID=' + this.fire_uuid;
+                    this.http.get(this.apiUrl).map(res => res.json())
+                      .subscribe(data => {
+                        loader.dismiss();
+                        console.log("After data:" + data.fire_UID);
+                        let alert = this.alertCtrl.create({
+                          title: 'Login Successful',
+                          subTitle: 'Welcome to Racing Room',
+                          buttons: ['OK']
+                        });
+                        alert.present();
+                        this.navCtrl.setRoot(HomePage);
+                      }, error => {
+                        console.log(error);// Error getting the data
+                      });
+                    
+                },
+                error => console.error(error)
+              );
+
+          } //checking for UUID
+          else{
           let alert = this.alertCtrl.create({
             title: 'Login Successful',
-            subTitle: 'Welcome to the App',
+            subTitle: 'Welcome to Racing Room',
             buttons: ['OK']
           });
           alert.present();
-  
-          this.nativeStorage.setItem('email', data.email)
-          .then(
-            () => console.log('User Email Stored!'),
-            error => console.error('Error storing item', error)
-          );
-  
-          this.nativeStorage.setItem('nickname', data.name)
-          .then(
-            () => console.log('name Stored!'),
-            error => console.error('Error storing item', error)
-          );
+          this.navCtrl.setRoot(HomePage);
+        }
 
-          this.nativeStorage.setItem('pay_status', data.pay_status)
-          .then(
-            () => console.log('name Stored!'),
-            error => console.error('Error storing item', error)
-          );
-  
-           this.navCtrl.setRoot(HomePage);
-   
-         } else if (str === 'failed') {
-           let alert = this.alertCtrl.create({
-             title: 'Authentication Failed',
-             subTitle: 'Email or Password is Invalid',
-             buttons: ['OK']
-           });
-           alert.present();
-         }
-       }, error => {
-         console.log(error); // Error getting the data
-   
-         let alert = this.alertCtrl.create({
-           title: 'Network Failed',
-           subTitle: 'Please try again later',
-           buttons: ['OK']
-   
-         });
-         alert.present();
-         loader.dismissAll();
-       });
-     
+        } else if (str === 'failed') {
+          let alert = this.alertCtrl.create({
+            title: 'Authentication Failed',
+            subTitle: 'Email or Password is Invalid',
+            buttons: ['OK']
+          });
+          alert.present();
+        }
+      }, error => {
+        console.log(error); // Error getting the data
+
+        let alert = this.alertCtrl.create({
+          title: 'Network Failed',
+          subTitle: 'Please try again later',
+          buttons: ['OK']
+
+        });
+        alert.present();
+        loader.dismissAll();
+      });
+
   }
 
   signup() {
 
-    // if( this.password === this.conpassword)
-    // {
-    //   this.fire.auth.createUserWithEmailAndPassword(this.email, this.password)
-    //   .then(data => {
-    //     console.log("Done"+ data);
-    
-    //     this.nativeStorage.setItem('nickname', this.nickname)
-    //     .then(
-    //       () => console.log('User Name Stored!'),
-    //       error => console.error('Error storing item', error)
-    //     );
+    if (this.password === this.conpassword) {
+      this.fire.auth.createUserWithEmailAndPassword(this.email, this.password)
+        .then(data => {
+          console.log("Done" + data);
 
-        if (this.name === undefined ||  this.email === undefined || this.password === undefined) {
-          let alert = this.alertCtrl.create({
+          if (this.name === undefined || this.email === undefined || this.password === undefined) {
+            let alert = this.alertCtrl.create({
               title: 'All fields are required',
               buttons: ['OK']
             });
             alert.present();
-      }
-      else if (this.password != this.conpassword) {
-          let alert = this.alertCtrl.create({
-              title: 'Passwords are not same',
-              buttons: ['OK']
-            });
-            alert.present();
-      }
-  
-      else {
-  
-           let loader = this.loadingCtrl.create({
+          }
+
+          else {
+
+            let loader = this.loadingCtrl.create({
               content: "User Registeration in Progress..."
-          });
-          loader.present();
-  
-          this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/user_register.php?name=' + this.name + '&password=' + this.password +'&email=' + this.email + '&playerid='+ this.playerid;
-       
-          this.http.get(this.apiUrl).map(res => res.json())
-            .subscribe(data => {
-             loader.dismiss();
-  
-                  console.log(data);
-        
-                  var status = data.Status;
-  
-                  if (status === 'exist') {
-  
-                      let alert = this.alertCtrl.create({
-                          title: 'User already Exists',
-                          buttons: ['OK']
-                        });
-                        alert.present();
-                        
-                  }
-                  else if(status === 'failed')
-                  {
-                    let alert = this.alertCtrl.create({
-                      title: 'Registeration Failed ! Server Problem',
-                      buttons: ['OK']
-                    });
-                    alert.present();
-                  }
-                  else {
+            });
+            loader.present();
 
-                    const alert = this.alertCtrl.create({
-                      title: 'Login to Continue',
-                      buttons: ['OK']
-                    });
-                    alert.present();
+            this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/user_register.php?name=' + this.name + '&password=' + this.password + '&email=' + this.email + '&playerid=' + this.playerid;
 
-                    this.navCtrl.setRoot(RegisterPage);
+            this.http.get(this.apiUrl).map(res => res.json())
+              .subscribe(data => {
+                loader.dismiss();
 
-                  }
+                console.log(data);
+
+                var status = data.Status;
+
+                if (status === 'exist') {
+
+                  let alert = this.alertCtrl.create({
+                    title: 'User already Exists',
+                    buttons: ['OK']
+                  });
+                  alert.present();
+
+                }
+                else if (status === 'failed') {
+                  let alert = this.alertCtrl.create({
+                    title: 'Registeration Failed ! Server Problem',
+                    buttons: ['OK']
+                  });
+                  alert.present();
+                }
+                else {
+
+                  const alert = this.alertCtrl.create({
+                    title: 'Login to Continue',
+                    buttons: ['OK']
+                  });
+                  alert.present();
+
+                  this.navCtrl.setRoot(RegisterPage);
+
+                }
               }, error => {
-                  console.log(error);// Error getting the data
+                console.log(error);// Error getting the data
               });
-      }
-  
-   
+          }
+
+        })
+        .catch((error: any) => {
+          console.error(error);
+          const alert = this.alertCtrl.create({
+            title: 'Error',
+            subTitle: error,
+            buttons: ['OK']
+          });
+          alert.present();
+        }
+        );
+    }
+    else {
+      const alert = this.alertCtrl.create({
+        title: 'Passwords do not Match',
+        buttons: ['OK']
+      });
+      alert.present();
+    }
+
   }
 
 
@@ -281,25 +330,21 @@ export class RegisterPage {
     this.presentLoading('An e-mail was sent with your new password.');
   }
 
-  registerpage()
-  {
+  registerpage() {
     this.value = '2';
   }
 
-  loginpage()
-  {
+  loginpage() {
     this.value = '1';
   }
 
-  forget()
-  {
+  forget() {
     this.value = '3';
   }
 
-  backto()
-  {
-    this.value= '1';
+  backto() {
+    this.value = '1';
   }
 
- 
+
 }

@@ -44,6 +44,9 @@ import { ProfilePage } from '../pages/profile/profile';
 import { IonicImageViewerModule } from 'ionic-img-viewer';
 import { ChatsettingsPage } from '../pages/chatsettings/chatsettings';
 
+//push notifications
+import { OneSignal } from '@ionic-native/onesignal';
+
 //kumail-horse (firebase project name)
 const firebaseAuth = {
   apiKey: "AIzaSyBu6m7gEDyIHPLEFaIw87Nkikf9t8F9H_U",
@@ -116,6 +119,7 @@ const firebaseAuth = {
     Camera,
     Media,
     PayPal,
+    OneSignal,
     //PayPalPayment,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]

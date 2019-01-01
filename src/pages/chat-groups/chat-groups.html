@@ -12,22 +12,13 @@
   </ion-navbar>
 </ion-header>
 
-
 <ion-content>
 
-       <ion-item-group>
-        <ion-item-divider color="light">User Created</ion-item-divider>
-        <ion-item *ngFor="let room of rooms">  <!--/roomname-->
-          {{room.roomname}}
-          <ion-icon name="chatboxes" item-end (click)="joinRoom(room.key, room.roomname)"></ion-icon>
-        </ion-item>
- 
-        <!-- <ion-item-divider color="light"><b>Admin Created</b></ion-item-divider> 
-        <ion-item *ngFor="let addroom of adminRooms">  <!--/Admin roomname
-          {{addroom.roomname}}
-          <ion-icon name="chatboxes" style="color:blueviolet" item-end (click)="viewchat(addroom.key,addroom.roomname)"></ion-icon>
-        </ion-item> -->
-       </ion-item-group>
-
+    <ion-item *ngFor="let room of posts" (click)="joinRoom(room.chatroom_key, room.roomname, room.room_image)">
+      <ion-avatar item-start>
+        <img src="{{room.room_image}}">
+      </ion-avatar>
+      <h2>{{room.roomname}}</h2>
+    </ion-item>
 
 </ion-content>
