@@ -1,8 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, NavController, MenuController } from 'ionic-angular';
+import { Platform, NavController, MenuController, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
 import { HomePage } from '../pages/home/home';
 import { RegisterPage } from '../pages/register/register';
 import { BookieOfferPage } from '../pages/bookie-offer/bookie-offer';
@@ -11,13 +10,12 @@ import { ContactPage } from '../pages/contact/contact';
 import { EventsPage } from '../pages/events/events';
 import { FaqPage } from '../pages/faq/faq';
 import { SettingsPage } from '../pages/settings/settings';
-
 import * as firebase from 'firebase';
 import { PaypalPage } from '../pages/paypal/paypal';
-
 //for Push notifications
 import { OneSignal } from '@ionic-native/onesignal';
 import { NativeStorage } from '@ionic-native/native-storage';
+import { Badge } from '@ionic-native/badge';
 
 // Initialize Firebase  kumail-horse (Firebase project name)
 var config = {
@@ -34,7 +32,7 @@ var config = {
 })
 export class MyApp {
   @ViewChild('nav') nav: NavController;
-  rootPage:any = HomePage; //HomePage RegisterPage
+  rootPage:any = RegisterPage; //HomePage RegisterPage
   
   home = HomePage;
   bookie = BookieOfferPage;
@@ -43,7 +41,7 @@ export class MyApp {
   event = EventsPage; 
   faq = FaqPage;
   
-  constructor(public nativeStorage : NativeStorage, private oneSignal: OneSignal, platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private menuCtrl: MenuController) {
+  constructor(private badge: Badge, public alertCtrl : AlertController, public nativeStorage : NativeStorage, private oneSignal: OneSignal, platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private menuCtrl: MenuController) {
     platform.ready().then(() => {
       statusBar.styleDefault();
       splashScreen.hide();
@@ -69,8 +67,26 @@ export class MyApp {
 
   logout()
   {
-    this.nav.setRoot(RegisterPage);
-    this.menuCtrl.close();
+    const confirm = this.alertCtrl.create({
+      title: 'Do You want to Logout ?',
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: () => {
+            console.log('Disagree clicked');
+          }
+        },
+        {
+          text: 'Ok',
+          handler: () => {
+            console.log('Agree clicked');
+            this.nav.setRoot(RegisterPage);
+            this.menuCtrl.close();
+          }
+        }
+      ]
+    });
+    confirm.present();  
   }
 
   settings()
@@ -83,11 +99,13 @@ export class MyApp {
   {
      //OneSignal ID 
      this.oneSignal.startInit('f1f10d1f-7893-4016-9449-0ee9ebc2fc58','896600085936');
-     this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.InAppAlert);
+     this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.None);
      this.oneSignal.handleNotificationReceived().subscribe(() => {
-      // do something when notification is received
+     
      });
+     
      this.oneSignal.handleNotificationOpened().subscribe(() => {
+      this.badge.clear();
      });
      this.oneSignal.endInit();
 

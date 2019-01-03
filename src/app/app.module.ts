@@ -47,6 +47,10 @@ import { ChatsettingsPage } from '../pages/chatsettings/chatsettings';
 //push notifications
 import { OneSignal } from '@ionic-native/onesignal';
 
+//badges
+import { Badge } from '@ionic-native/badge';
+import { EditprofilePage } from '../pages/editprofile/editprofile';
+
 //kumail-horse (firebase project name)
 const firebaseAuth = {
   apiKey: "AIzaSyBu6m7gEDyIHPLEFaIw87Nkikf9t8F9H_U",
@@ -76,7 +80,8 @@ const firebaseAuth = {
     AdminchatPage,
     PaypalPage,
     ProfilePage,
-    ChatsettingsPage
+    ChatsettingsPage,
+    EditprofilePage
   ],
   imports: [
     BrowserModule,
@@ -104,7 +109,8 @@ const firebaseAuth = {
     AdminchatPage,
     PaypalPage,
     ProfilePage,
-    ChatsettingsPage
+    ChatsettingsPage,
+    EditprofilePage
   ],
   providers: [
     StatusBar,
@@ -120,6 +126,7 @@ const firebaseAuth = {
     Media,
     PayPal,
     OneSignal,
+    Badge,
     //PayPalPayment,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]

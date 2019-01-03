@@ -73,14 +73,15 @@ export class ChatGroupsPage {
     this.navCtrl.push(AddroomPage);
   }
 
-  joinRoom(key, roomname : string, room_image : string) {
+  joinRoom(key, roomname : string, room_image : string, room_id :string) {
     console.log("Keys:" + key);
     console.log("nickname:" + this.nickname);
     this.navCtrl.setRoot(ChatPage, {
       key:key,
       nickname:  this.nickname,
       roomname : roomname,
-      room_image: room_image
+      room_image: room_image,
+      room_id : room_id
     });
   }
 

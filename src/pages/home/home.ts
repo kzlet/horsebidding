@@ -11,6 +11,7 @@ import { NativeStorage } from '@ionic-native/native-storage';
 import { AngularFireDatabase, AngularFireObject  } from '@angular/fire/database';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { PaypalPage } from '../paypal/paypal';
+import { EditprofilePage } from '../editprofile/editprofile';
 
 @Component({
   selector: 'page-home',
@@ -19,7 +20,7 @@ import { PaypalPage } from '../paypal/paypal';
 export class HomePage {
   selected = "";
   user = {
-    name: 'Horse Tip App',
+    name: 'Racing Room',
     twitter: '@admin',
     profileImage: '../assets/img/avatar/cosima-avatar.jpg',
     followers: 456,
@@ -38,7 +39,7 @@ export class HomePage {
 
   constructor(public alertCtrl: AlertController, private afDatabase : AngularFireDatabase , private nativeStorage: NativeStorage, private fire : AngularFireAuth , public navCtrl: NavController, public menuCtrl: MenuController) {
     this.posts = [
-      { 'image': 'imgs/icon1.png', 'name': 'Chat Groups', 'id': '1' },
+      { 'image': 'imgs/icon1.png', 'name': 'Premium Tips', 'id': '1' },
       { 'image': 'imgs/icon2.png', 'name': 'Events', 'id': '2' },
       { 'image': 'imgs/icon3.png', 'name': 'FAQ', 'id': '3' },
       { 'image': 'imgs/icon4.png', 'name': 'Contact Us', 'id': '4' },
@@ -72,6 +73,12 @@ export class HomePage {
       error => console.error(error)
     );
 
+  }
+
+  editprofile()
+  {
+    console.log("Clicked");
+    this.navCtrl.push(EditprofilePage);
   }
 
   get_nickname()

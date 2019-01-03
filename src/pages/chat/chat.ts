@@ -11,6 +11,9 @@ import { Media, MediaObject } from '@ionic-native/media';
 import { AudioPage } from '../audio/audio';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { ChatsettingsPage } from '../chatsettings/chatsettings';
+import { Http } from '@angular/http';
+import 'rxjs/add/operator/map';
+import { Badge } from '@ionic-native/badge';
 
 @Component({
   selector: 'page-chat',
@@ -44,14 +47,17 @@ export class ChatPage {
   mike_value : any = '0';
   uuid: string;
   room_image: string;
+  apiUrl: string;
+  room_id: string;
 
-  constructor(private db : AngularFireDatabase,public modalCtrl: ModalController, private file: File, public platform: Platform, private media: Media, public toastCtrl: ToastController, private camera: Camera, public actionSheetCtrl: ActionSheetController, private nativeStorage: NativeStorage, public navCtrl: NavController, public navParams: NavParams, private fileTransfer: FileTransferObject, private fileChooser: FileChooser, private transfer: FileTransfer) {
+  constructor(private badge: Badge, private http: Http, private db : AngularFireDatabase,public modalCtrl: ModalController, private file: File, public platform: Platform, private media: Media, public toastCtrl: ToastController, private camera: Camera, public actionSheetCtrl: ActionSheetController, private nativeStorage: NativeStorage, public navCtrl: NavController, public navParams: NavParams, private fileTransfer: FileTransferObject, private fileChooser: FileChooser, private transfer: FileTransfer) {
     this.myPhotosRef = firebase.storage().ref('/images/');
     console.log("Mike value" + this.mike_value);
     this.roomkey = this.navParams.get("key") as string;
     this.nickname = this.navParams.get("nickname") as string;
     this.roomname = this.navParams.get("roomname") as string;
     this.room_image = this.navParams.get("room_image") as string;
+    this.room_id = this.navParams.get("room_id") as string;
    
     this.nativeStorage.getItem('uuid')
     .then(
@@ -69,7 +75,8 @@ export class ChatPage {
       type: 'join',
       user: this.nickname,
       message: this.nickname + ' has joined this room.',
-      sendDate: Date()
+      sendDate: Date(),
+      dater : new Date().toLocaleTimeString(),
     });
     this.data.message = '';
 
@@ -91,10 +98,25 @@ export class ChatPage {
       user: this.data.nickname,
       message: this.data.message,
       sendDate: Date(),
+      dater : new Date().toLocaleTimeString(),
       message_status: '1',
       uuid : this.uuid,
     });
     this.data.message = '';
+    this.send_push();
+  }
+
+  send_push()
+  {
+    console.log("Room id" + this.room_id);
+    this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/push_for_chat.php?id=' + this.room_id;
+    this.http.get(this.apiUrl).map(res => res.json())
+      .subscribe(data => {
+        console.log("After data:" + data);
+        this.badge.increase(1);
+      }, error => {
+        console.log(error);// Error getting the data
+      });
   }
 
   // play(voice: string) {
@@ -227,7 +249,7 @@ export class ChatPage {
       type: 'exit',
       user: this.nickname,
       message: this.nickname + ' has exited this room.',
-      sendDate: Date()
+      sendDate: Date(),
     });
 
     this.offStatus = true;
@@ -291,6 +313,7 @@ export class ChatPage {
       user: this.data.nickname,
       image: this.image_url,
       sendDate: Date(),
+      dater : new Date().toLocaleTimeString(),
       uuid : this.uuid,
     });
     this.data.message = '';
@@ -328,5 +351,3 @@ export const snapshotToArray = snapshot => {
 
   return returnArr;
 };
-
-

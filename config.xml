@@ -92,5 +92,6 @@
     <plugin name="cordova-plugin-media" spec="5.0.2" />
     <plugin name="com.paypal.cordova.mobilesdk" spec="3.5.0" />
     <plugin name="onesignal-cordova-plugin" spec="2.4.6" />
+    <plugin name="cordova-plugin-badge" spec="0.8.8" />
     <engine name="android" spec="7.1.4" />
 </widget>

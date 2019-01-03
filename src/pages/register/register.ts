@@ -99,15 +99,7 @@ export class RegisterPage {
             () => console.log('UUID Stored!'),
             error => console.error('Error storing item', error)
           );
-
         this.login();
-
-        // const alert = this.alertCtrl.create({
-        //   title: 'Welcome to the App',
-        //   buttons: ['OK']
-        // });
-        // alert.present();
-        // this.navCtrl.setRoot(HomePage);
       })
       .catch((error: any) => {
         console.error(error);
@@ -261,6 +253,13 @@ export class RegisterPage {
             });
             loader.present();
 
+            this.nativeStorage.getItem('playerid')
+            .then(
+              data => {
+                console.log("Checking for playerid:" + data);
+                this.playerid = data;
+            
+
             this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/user_register.php?name=' + this.name + '&password=' + this.password + '&email=' + this.email + '&playerid=' + this.playerid;
 
             this.http.get(this.apiUrl).map(res => res.json())
@@ -301,6 +300,11 @@ export class RegisterPage {
               }, error => {
                 console.log(error);// Error getting the data
               });
+
+            },// Playerid completes
+            error => console.error(error)
+          );
+
           }
 
         })

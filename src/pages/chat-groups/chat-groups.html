@@ -3,18 +3,18 @@
       <button ion-button icon-only menuToggle>
           <ion-icon name="ios-menu-outline"></ion-icon>
         </button>
-    <ion-title>Chat Groups</ion-title>
-    <ion-buttons end>
+    <ion-title>Premium Tips</ion-title>
+    <!-- <ion-buttons end>
       <button ion-button icon-only (click)="addRoom()">
         <ion-icon name="add-circle"></ion-icon>
       </button>
-    </ion-buttons>
+    </ion-buttons> -->
   </ion-navbar>
 </ion-header>
 
 <ion-content>
 
-    <ion-item *ngFor="let room of posts" (click)="joinRoom(room.chatroom_key, room.roomname, room.room_image)">
+    <ion-item *ngFor="let room of posts" (click)="joinRoom(room.chatroom_key, room.roomname, room.room_image, room.id)">
       <ion-avatar item-start>
         <img src="{{room.room_image}}">
       </ion-avatar>
