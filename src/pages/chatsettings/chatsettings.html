@@ -19,11 +19,15 @@
   <ion-list>
 
         <ion-item>
-          <ion-label>Mute Notifications</ion-label>
-          <ion-toggle [(ngModel)]="notifications"></ion-toggle>
+          <ion-label>Notifications</ion-label>
+          <ion-toggle [(ngModel)]="chat_status"></ion-toggle>
         </ion-item>
 
 
   </ion-list>
+
+  <div align="center">
+    <button ion-button round full style="width:75%;color:white;background-color:black" (click)="update()">Update</button>
+  </div>
 
 </ion-content>

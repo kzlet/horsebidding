@@ -29,6 +29,7 @@ export class RegisterPage {
   apiUrl: string;
   playerid: any;
   fire_uuid: any;
+  change_email: string;
 
   constructor(private http: Http, private afDatabase: AngularFireDatabase, private nativeStorage: NativeStorage, private fire: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public app: App) {
     this.nativeStorage.getItem('playerid')
@@ -48,6 +49,15 @@ export class RegisterPage {
     console.log('ionViewDidLoad RegisterPage');
   }
 
+  reset_pass()
+  {
+    this.fire.auth.sendPasswordResetEmail(this.change_email)
+      .then(() =>{ 
+        alert("Email Sent Successfully!");
+        this.value = '1';
+    })
+      .catch((error) => console.log(error))
+  }
 
   go() {
     this.navCtrl.push(HomePage);
@@ -116,10 +126,10 @@ export class RegisterPage {
 
 
   login() {
-    this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/user_login.php?email=' + this.email + '&password=' + this.password;
+    this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/user_login.php?email=' + this.email;
     console.log(this.apiUrl)
 
-    if (this.email === undefined || this.password === undefined) {
+    if (this.email === undefined) {
       let alert = this.alertCtrl.create({
         title: 'Sign-in Error',
         subTitle: 'Email and Password Required',

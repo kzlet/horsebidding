@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, AlertController } from 'ionic-angular';
 import { RegisterPage } from '../register/register';
+import { EditprofilePage } from '../editprofile/editprofile';
 
 @Component({
   selector: 'page-settings',
@@ -38,5 +39,9 @@ export class SettingsPage {
     confirm.present();
   }
 
+  edit()
+  {
+    this.navCtrl.push(EditprofilePage);
+  }
 
 }

@@ -6,25 +6,27 @@
       <img src="imgs/logo.PNG" style="width:55%"/>
     </div>
 
-    <ion-list style="margin-top:15px;padding-left:10px;padding-right:10px">
-      <ion-item>
-        <ion-label floating>Email</ion-label>
-        <ion-input type="text" [(ngModel)]="email"></ion-input>
+<div align="center" style="margin-top:20%;padding:5%">
+
+      <ion-item style="border-radius:30px 30px;" no-line>        
+        <ion-label><ion-icon name="ios-mail-outline"></ion-icon></ion-label>
+        <ion-input placeholder="Email" type="text" [(ngModel)]="email"></ion-input>
       </ion-item>
 
-      <ion-item>
-        <ion-label floating>Password</ion-label>
-        <ion-input type="password" [(ngModel)]="password"></ion-input>
+      <ion-item style="border-radius:30px 30px;margin-top:7px" no-line>        
+        <ion-label><ion-icon name="ios-key-outline"></ion-icon></ion-label>
+        <ion-input placeholder="Password" type="password" [(ngModel)]="password"></ion-input>
       </ion-item>
 
-      <div align="right" style="margin-top:10px">
+      <div align="right" style="margin-top:10px;padding-right:20px">
         <p (click)="forget()">Forget Password ?</p>
       </div>
-
-    </ion-list>
+   
+    </div>
+ 
 
     <div align="center">
-    <button ion-button round full style="width:75%" (click)="firebase_login()">Login</button>
+    <button ion-button round full style="width:75%;color:white;background-color:black" (click)="firebase_login()">Login</button>
   </div>
 
   <div align="center" (click)="registerpage()">
@@ -36,52 +38,56 @@
 
   <div *ngIf="value === 2 || value === '2'">
     
-    <ion-list style="margin-top:85px;padding-left:10px;padding-right:10px">
-      <ion-item>
-        <ion-label floating>Email</ion-label>
-        <ion-input type="text" [(ngModel)]="email"></ion-input>
+    <div style="margin-top:85px;padding:5%">
+     
+      <ion-item style="border-radius:30px 30px;">        
+        <ion-label><ion-icon name="ios-mail-outline"></ion-icon></ion-label>
+        <ion-input placeholder="Your Email" type="text" [(ngModel)]="email"></ion-input>
       </ion-item>
 
-      <ion-item>
-        <ion-label floating>Name</ion-label>
-        <ion-input type="text" [(ngModel)]="name"></ion-input>
+      <ion-item style="border-radius:30px 30px;margin-top:7px">        
+        <ion-label><ion-icon name="ios-mail-outline"></ion-icon></ion-label>
+        <ion-input placeholder="Your Name" type="text" [(ngModel)]="name"></ion-input>
       </ion-item>
 
-      <ion-item>
-        <ion-label floating>Password</ion-label>
-        <ion-input type="password" [(ngModel)]="password"></ion-input>
+
+      <ion-item style="border-radius:30px 30px;margin-top:7px">        
+        <ion-label><ion-icon name="ios-key-outline"></ion-icon></ion-label>
+        <ion-input placeholder="Password" type="password" [(ngModel)]="password"></ion-input>
       </ion-item>
 
-      <ion-item>
-        <ion-label floating>Confirm Password</ion-label>
-        <ion-input type="password" [(ngModel)]="conpassword"></ion-input>
+      <ion-item style="border-radius:30px 30px;margin-top:7px">        
+        <ion-label><ion-icon name="ios-key-outline"></ion-icon></ion-label>
+        <ion-input placeholder="Confirm Password" type="password" [(ngModel)]="conpassword"></ion-input>
       </ion-item>
 
-    </ion-list>
+    </div>
 
     <div align="center">
-    <button ion-button round full style="width:75%" (click)="signup()">Register</button>
+    <button ion-button round full style="width:75%;color:white;background-color:black" (click)="signup()">Register</button>
   </div>
 
   <div align="center" (click)="loginpage()">
-  <p>Already have an Account ? Click to Signin</p>
+  <p style="color:black">Already have an Account ? Click to Signin</p>
   </div>
   </div>
 
   <div *ngIf="value === 3 || value === '3'">
     
-    <ion-list style="margin-top:150px;padding-left:10px;padding-right:10px">
+    <ion-list style="margin-top:150px;padding:5%">
       <div align="center">
-      <h4 style="color:white">Enter your registered Email</h4>
-      <ion-item>
-        <ion-label floating>Email</ion-label>
-        <ion-input type="text" [(ngModel)]="email"></ion-input>
+      <h4 style="color:black">Enter your registered Email</h4>
+
+      <ion-item style="border-radius:30px 30px;">        
+        <ion-label><ion-icon name="ios-mail-outline"></ion-icon></ion-label>
+        <ion-input placeholder="Your Email" type="text" [(ngModel)]="change_email"></ion-input>
       </ion-item>
+
       </div>
     </ion-list>
 
     <div align="center">
-      <button ion-button round full style="width:75%">Send</button>
+      <button ion-button round full style="width:75%;color:white;background-color:black" (click)="reset_pass()">Reset Password</button>
 
       <p (click)="backto()">Take me back</p>
     </div>

@@ -1,23 +1,57 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
+import { Http } from '@angular/http';
+import 'rxjs/add/operator/map';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 @Component({
   selector: 'page-bookie-offer',
   templateUrl: 'bookie-offer.html',
 })
 export class BookieOfferPage {
-  posts: { 'image': string; 'title': string; }[];
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.posts=[
-      {'image':'imgs/Kingman1.jpg', 'title':'Bookie Offer 1'},
-      {'image':'imgs/Kingman2.jpg', 'title':'Bookie Offer 2'},
-      {'image':'imgs/Kingman3.jpg', 'title':'Bookie Offer 3'},
-    ];
+  apiUrl: string;
+  posts: any;
+  constructor(private iab: InAppBrowser, public loadingCtrl: LoadingController, public alertCtrl: AlertController, private http: Http, public navCtrl: NavController, public navParams: NavParams) {
+  this.get_data();
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad BookieOfferPage');
+    console.log('ionViewDidLoad EventsPage');
+  }
+
+  get_data()
+  {
+    let loader = this.loadingCtrl.create({
+      content: "Loading Data..."
+    });
+    loader.present();
+
+    this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/get_offers.php';
+
+    console.log(this.apiUrl);
+
+    this.http.get(this.apiUrl).map(res => res.json())
+      .subscribe(data => {
+
+        this.posts = data;
+        if (this.posts === undefined || this.posts === 'undefined') {
+          alert("No Offers to Show");
+          loader.dismiss();
+        }
+        else
+          loader.dismiss();
+
+      }, error => {
+        console.log(error); // Error getting the data
+
+      });
+  }
+
+  view_offer(hyperlink:string)
+  {
+    console.log("Link clicked");
+    var text = 'https://';
+    const browser = this.iab.create(text + hyperlink, '_blank', 'location=no');
   }
 
 }

@@ -70,15 +70,15 @@ export class ChatPage {
     this.data.type = 'message';
     this.data.nickname = this.nickname;
 
-    let joinData = firebase.database().ref('chatrooms/' + this.roomkey + '/chats').push();
-    joinData.set({
-      type: 'join',
-      user: this.nickname,
-      message: this.nickname + ' has joined this room.',
-      sendDate: Date(),
-      dater : new Date().toLocaleTimeString(),
-    });
-    this.data.message = '';
+    // let joinData = firebase.database().ref('chatrooms/' + this.roomkey + '/chats').push();
+    // joinData.set({
+    //   type: 'join',
+    //   user: this.nickname,
+    //   message: this.nickname + ' has joined this room.',
+    //   sendDate: Date(),
+    //   dater : new Date().toLocaleTimeString(),
+    // });
+    // this.data.message = '';
 
     firebase.database().ref('chatrooms/' + this.roomkey + '/chats').on('value', resp => {
       this.chats = [];
@@ -244,13 +244,13 @@ export class ChatPage {
   }
 
   exitChat() {
-    let exitData = firebase.database().ref('chatrooms/' + this.roomkey + '/chats').push();
-    exitData.set({
-      type: 'exit',
-      user: this.nickname,
-      message: this.nickname + ' has exited this room.',
-      sendDate: Date(),
-    });
+    // let exitData = firebase.database().ref('chatrooms/' + this.roomkey + '/chats').push();
+    // exitData.set({
+    //   type: 'exit',
+    //   user: this.nickname,
+    //   message: this.nickname + ' has exited this room.',
+    //   sendDate: Date(),
+    // });
 
     this.offStatus = true;
 
@@ -335,7 +335,7 @@ export class ChatPage {
 
   settings()
   {
-    const modal = this.modalCtrl.create(ChatsettingsPage, {roomname : this.roomname, room_image: this.room_image});
+    const modal = this.modalCtrl.create(ChatsettingsPage, {roomname : this.roomname, room_image: this.room_image, room_id : this.room_id});
     modal.present();
   }
 

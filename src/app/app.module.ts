@@ -51,6 +51,9 @@ import { OneSignal } from '@ionic-native/onesignal';
 import { Badge } from '@ionic-native/badge';
 import { EditprofilePage } from '../pages/editprofile/editprofile';
 
+//inappbrowser
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+
 //kumail-horse (firebase project name)
 const firebaseAuth = {
   apiKey: "AIzaSyBu6m7gEDyIHPLEFaIw87Nkikf9t8F9H_U",
@@ -127,6 +130,7 @@ const firebaseAuth = {
     PayPal,
     OneSignal,
     Badge,
+    InAppBrowser,
     //PayPalPayment,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]

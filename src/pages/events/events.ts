@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
+import { Http } from '@angular/http';
+import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'page-events',
@@ -8,17 +10,42 @@ import { NavController, NavParams } from 'ionic-angular';
 export class EventsPage {
   
   galleryType = 'regular';
-  posts: { 'image': string; 'title': string; 'description': string; 'location': string; 'event_time': string; 'event_date': string; }[];
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  apiUrl: string;
+  posts: any;
+  constructor(public loadingCtrl: LoadingController, public alertCtrl: AlertController, private http: Http, public navCtrl: NavController, public navParams: NavParams) {
+  this.get_data();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad EventsPage');
-    this.posts = [
-      {'image':'imgs/Kingman1.jpg', 'title' : 'Isle of November', 'description':'Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet' , 'location':'Central Avenue', 'event_time' : '14:00', 'event_date' :'12th December 2018' },
-      {'image':'imgs/Kingman2.jpg', 'title' : 'Annual Race', 'description':'Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet' , 'location':'Central Avenue', 'event_time' : '14:00', 'event_date' :'12th December 2018' },
-      {'image':'imgs/Kingman3.jpg', 'title' : 'Ceaser Last Round', 'description':'Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet' , 'location':'Central Avenue', 'event_time' : '14:00', 'event_date' :'12th December 2018' },
-    ];
+  }
+
+  get_data()
+  {
+    let loader = this.loadingCtrl.create({
+      content: "Loading Data..."
+    });
+    loader.present();
+
+    this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/get_events.php';
+
+    console.log(this.apiUrl);
+
+    this.http.get(this.apiUrl).map(res => res.json())
+      .subscribe(data => {
+
+        this.posts = data;
+        if (this.posts === undefined || this.posts === 'undefined') {
+          alert("No Events to View");
+          loader.dismiss();
+        }
+        else
+          loader.dismiss();
+
+      }, error => {
+        console.log(error); // Error getting the data
+
+      });
   }
 
 }
