@@ -47,7 +47,7 @@
 
       <ion-item style="border-radius:30px 30px;margin-top:7px">        
         <ion-label><ion-icon name="ios-mail-outline"></ion-icon></ion-label>
-        <ion-input placeholder="Your Name" type="text" [(ngModel)]="name"></ion-input>
+        <ion-input placeholder="Full Name" type="text" [(ngModel)]="name"></ion-input>
       </ion-item>
 
 
@@ -60,6 +60,23 @@
         <ion-label><ion-icon name="ios-key-outline"></ion-icon></ion-label>
         <ion-input placeholder="Confirm Password" type="password" [(ngModel)]="conpassword"></ion-input>
       </ion-item>
+
+      <ion-item style="border-radius:30px 30px;margin-top:7px">        
+        <ion-label><ion-icon name="ios-call-outline"></ion-icon></ion-label>
+        <ion-input placeholder="Phone Number" type="number" [(ngModel)]="phone_number"></ion-input>
+      </ion-item>
+
+      <ion-item style="border-radius:30px 30px;margin-top:7px">        
+        <ion-label><ion-icon name="ios-call-outline"></ion-icon></ion-label>
+        <ion-input placeholder="Post Code" type="text" [(ngModel)]="post_code"></ion-input>
+      </ion-item>
+
+   
+      <ion-item style="border-radius:30px 30px;margin-top:7px">        
+        <ion-label><ion-icon name="ios-call-outline"></ion-icon></ion-label>
+      <ion-datetime style="position: absolute; left: 23px;" placeholder="Date of Birth" displayFormat="DD MMMM YYYY" min="1900" max="2019" [(ngModel)]="mydate"></ion-datetime>
+      </ion-item>
+
 
     </div>
 

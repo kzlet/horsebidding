@@ -30,6 +30,9 @@ export class RegisterPage {
   playerid: any;
   fire_uuid: any;
   change_email: string;
+  post_code: string;
+  phone_number: string;
+  mydate: string;
 
   constructor(private http: Http, private afDatabase: AngularFireDatabase, private nativeStorage: NativeStorage, private fire: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public app: App) {
     this.nativeStorage.getItem('playerid')
@@ -270,7 +273,7 @@ export class RegisterPage {
                 this.playerid = data;
             
 
-            this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/user_register.php?name=' + this.name + '&password=' + this.password + '&email=' + this.email + '&playerid=' + this.playerid;
+            this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/user_register.php?name=' + this.name + '&password=' + this.password + '&email=' + this.email + '&playerid=' + this.playerid + '&post_code=' + this.post_code + '&phone_number=' + this.phone_number + '&dob=' + this.mydate;
 
             this.http.get(this.apiUrl).map(res => res.json())
               .subscribe(data => {

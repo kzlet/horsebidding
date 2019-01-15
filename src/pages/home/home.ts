@@ -12,6 +12,7 @@ import { AngularFireDatabase, AngularFireObject  } from '@angular/fire/database'
 import { AngularFireAuth } from '@angular/fire/auth';
 import { PaypalPage } from '../paypal/paypal';
 import { EditprofilePage } from '../editprofile/editprofile';
+import { TispterprofilePage } from '../tispterprofile/tispterprofile';
 
 @Component({
   selector: 'page-home',
@@ -39,12 +40,13 @@ export class HomePage {
 
   constructor(public alertCtrl: AlertController, private afDatabase : AngularFireDatabase , private nativeStorage: NativeStorage, private fire : AngularFireAuth , public navCtrl: NavController, public menuCtrl: MenuController) {
     this.posts = [
-      { 'image': 'imgs/icon1.png', 'name': 'Premium Tips', 'id': '1' },
-      { 'image': 'imgs/icon2.png', 'name': 'Events', 'id': '2' },
-      { 'image': 'imgs/icon3.png', 'name': 'FAQ', 'id': '3' },
-      { 'image': 'imgs/icon4.png', 'name': 'Contact Us', 'id': '4' },
-      { 'image': 'imgs/icon3.png', 'name': 'Bookie Offer', 'id': '5' },
-      { 'image': 'imgs/icon4.png', 'name': 'Settings', 'id': '6' },
+      { 'image': 'imgs/icon1.png', 'name': 'VIP Rooms', 'id': '1' },
+      { 'image': 'imgs/icon2.png', 'name': 'Tipster Profile', 'id': '2' },
+      { 'image': 'imgs/icon2.png', 'name': 'Events', 'id': '3' },
+      { 'image': 'imgs/icon3.png', 'name': 'FAQ', 'id': '4' },
+      { 'image': 'imgs/icon4.png', 'name': 'Contact Us', 'id': '5' },
+      { 'image': 'imgs/icon3.png', 'name': 'Bookie Offer', 'id': '6' },
+      { 'image': 'imgs/icon4.png', 'name': 'Settings', 'id': '7' },
     ]
 
     this.ref2.on('value', resp => {
@@ -130,18 +132,22 @@ export class HomePage {
       this.navCtrl.setRoot(ChatGroupsPage);
     }
     else if (id === '2') {
-      this.navCtrl.setRoot(EventsPage);
+      this.navCtrl.setRoot(TispterprofilePage);
     }
     else if (id === '3') {
-      this.navCtrl.setRoot(FaqPage);
+      this.navCtrl.setRoot(EventsPage);
     }
     else if (id === '4') {
-      this.navCtrl.setRoot(ContactPage);
+      this.navCtrl.setRoot(FaqPage);
     }
     else if (id === '5') {
-      this.navCtrl.setRoot(BookieOfferPage);
+      this.navCtrl.setRoot(ContactPage);
     }
     else if (id === '6') {
+      this.navCtrl.setRoot(BookieOfferPage);
+    }
+    else if(id === '7')
+    {
       this.navCtrl.setRoot(SettingsPage);
     }
   }

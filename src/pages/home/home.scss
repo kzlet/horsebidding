@@ -1,4 +1,15 @@
 page-home {
+  .new-bg
+  {
+    background-image: url('../assets/imgs/Kingman3.jpg');
+    width: 100%;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    height: 40%;
+    margin-top:-20px;
+  }
     @font-face {
         font-family: "ProximaNova-Regular";
         src: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/64/ProximaNova-Regular.eot");
@@ -41,6 +52,7 @@ page-home {
         position: relative;
         margin: auto;
       }
+    
       .card-profile {
         float: left;
         position: absolute;

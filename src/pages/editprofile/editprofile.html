@@ -7,15 +7,6 @@
 
 <ion-content padding>
 
-  <ion-card style="border-radius:12px 12px;padding:10px">
-    <div align="center" (click)="presentActionSheet()">
-  <img *ngIf="profile_picture != undefined || profile_picture != 'undefined' || profile_picture != null || profile_picture != 'null'" src="{{profile_picture}}" style="width:27%">   <!-- <ion-avatar *ngIf="profile_picture != undefined || profile_picture != 'undefined' || profile_picture != null || profile_picture != 'null'">-->
-    <img *ngIf="profile_picture === '' || profile_picture === undefined || profile_picture === 'undefined' || profile_picture === null || profile_picture === 'null'" src="imgs/profilepic1.png" style="width: 27%;"/>
-    <p style="color:black;margin-top: 3%;">Change picture</p>
-    </div>
-  </ion-card>
-
-
   <ion-card style="border-radius:12px 12px;padding:15px">
     <ion-item>
         <ion-label floating>Name</ion-label>
@@ -24,8 +15,25 @@
 
       <ion-item>
         <ion-label floating>Email</ion-label>
-        <ion-input type="text" [(ngModel)]="email"></ion-input>
+        <ion-input type="text" readonly="{{isReadonly}}" [(ngModel)]="email"></ion-input>
       </ion-item>
+
+      <ion-item>
+        <ion-label floating>Phone Number</ion-label>
+        <ion-input type="number" [(ngModel)]="phone_number"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Post Code</ion-label>
+        <ion-input type="text" [(ngModel)]="post_code"></ion-input>
+      </ion-item>
+
+      <ion-item>        
+        <ion-label floating>D.O.B</ion-label>
+      <ion-datetime style="position: absolute; left: 23px;"  displayFormat="DD MMMM YYYY" min="1900" max="2019" [(ngModel)]="dob"></ion-datetime>
+      </ion-item>
+
+
   </ion-card>
 
 

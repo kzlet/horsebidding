@@ -53,6 +53,7 @@ import { EditprofilePage } from '../pages/editprofile/editprofile';
 
 //inappbrowser
 import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { TispterprofilePage } from '../pages/tispterprofile/tispterprofile';
 
 //kumail-horse (firebase project name)
 const firebaseAuth = {
@@ -84,7 +85,8 @@ const firebaseAuth = {
     PaypalPage,
     ProfilePage,
     ChatsettingsPage,
-    EditprofilePage
+    EditprofilePage,
+    TispterprofilePage
   ],
   imports: [
     BrowserModule,
@@ -113,7 +115,8 @@ const firebaseAuth = {
     PaypalPage,
     ProfilePage,
     ChatsettingsPage,
-    EditprofilePage
+    EditprofilePage,
+    TispterprofilePage
   ],
   providers: [
     StatusBar,

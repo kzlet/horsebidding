@@ -1,24 +1,10 @@
   <ion-content class="container transparent-header">
-      <div class="card-profile">
-        <div class="card-profile_visual"></div>
-        <div class="card-profile_user-infos">
-          <span class="infos_name">{{user.name}}</span>
-          <span class="infos_nick">@{{nickname}}</span>
-          <a href="#" (click)="editprofile()"></a>
-        </div>
-        <div style="margin-top: -30px;" class="card-profile_user-stats">
-          <div class="stats-holder">
-            <div  class="user-stats">
-              <strong></strong>
-              <span></span>
-            </div>
-            <div class="user-stats">
-              <strong></strong>
-              <span></span>
-            </div>
-          </div>
-        </div>
-     
+    
+      <div class="new-bg">
+      </div>
+    
+    
+    <div class="card-profile">
       <ion-grid>
           <ion-row>
             <ion-col *ngFor="let post of posts, let i = index" col-6>

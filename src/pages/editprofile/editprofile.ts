@@ -22,6 +22,9 @@ export class EditprofilePage {
   imageURI: string;
   image_value: string;
   email: any;
+  phone_number: any;
+  post_code: any;
+  dob: any;
 
   constructor(public actionSheetCtrl: ActionSheetController, public toastCtrl: ToastController, private transfer: FileTransfer, private camera: Camera, public alertCtrl: AlertController, private http: Http, private loadingCtrl: LoadingController, private nativeStorage: NativeStorage, public navCtrl: NavController, public navParams: NavParams) {
     this.nativeStorage.getItem('user_id')
@@ -55,7 +58,10 @@ export class EditprofilePage {
   
         this.name = this.posts.name;
         this.email = this.posts.email;
-        this.profile_picture = this.posts.profile_pic;
+        this.imageURI = this.posts.profile_picture;
+        this.phone_number = this.posts.phone_number;
+        this.post_code = this.posts.post_code;
+        this.dob = this.posts.dob;
         
         loader.dismiss();
         console.log(this.posts);
@@ -82,7 +88,7 @@ export class EditprofilePage {
         });
         loader.present();
 
-        this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/update_user_profile.php?name=' + this.name + '&id=' + this.user_id;
+        this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/update_user_profile.php?name=' + this.name + '&id=' + this.user_id  + '&post_code=' + this.post_code + '&phone_number=' + this.phone_number + '&dob=' + this.dob;
        
         this.http.get(this.apiUrl).map(res => res.json())
           .subscribe(data => {
@@ -125,109 +131,112 @@ export class EditprofilePage {
 }
 
   //Upload image:
-  public presentActionSheet() {
-    this.image_value = '1';
-    let actionSheet = this.actionSheetCtrl.create({
-      title: 'Select Image Source',
-      buttons: [
-        {
-          text: 'Load from Library',
-          handler: () => {
-            this.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY);
-          }
-        },
-        {
-          text: 'Use Camera',
-          handler: () => {
-            this.takePicture(this.camera.PictureSourceType.CAMERA);
-            //this.Alertconfirm();
-          }
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel'
+ public presentActionSheet() {
+  let actionSheet = this.actionSheetCtrl.create({
+    title: 'Select Image Source',
+    buttons: [
+      {
+        text: 'Load from Library',
+        handler: () => {
+          this.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY);
         }
-      ]
-    });
-    actionSheet.present();
-  
-  }
-  
-  public takePicture(sourceType) {
-    // Create options for the Camera Dialog
-    var options = {
-      quality: 100,
-      sourceType: sourceType,
-      saveToPhotoAlbum: false,
-      correctOrientation: true
-    };
-  
-    // Get the data of an image
-    this.camera.getPicture(options).then((imagePath) => {
-      // Special handling for Android library
-     console.log("ImageURL from Source",imagePath)
-      this.profile_picture = imagePath;
-      console.log("ImageURL ",this.profile_picture)
-    }, (err) => {
-      this.presentToast('Error while selecting image.');
-    });
-  }
-  
-  private presentToast(text) {
-    let toast = this.toastCtrl.create({
-      message: text,
-      duration: 3000,
-      position: 'bottom'
-    });
-    toast.present();
-  }
-  
-  // Always get the accurate path to your apps folder
-  
-  
-  public uploadImage() {
-    // File for Upload
-    console.log(this.profile_picture)
-    var targetPath = this.profile_picture
-  
-    var temp= this.profile_picture.replace(".png?","_");
-    var temp1=temp.replace(".jpg?","_");
-    // File name only
-    var filename = temp1;
-  
-    var options = {
-      fileKey: "file",
-      fileName:filename,
-      chunkedMode: false,
-      mimeType: "image/jpeg",
-      params: { 'fileName': filename }
-    };
-  
-    const fileTransfer: FileTransferObject = this.transfer.create();
-  
-    let loadingCtrl = this.loadingCtrl.create({
-      content: 'Validating resources...',
-    });
-    loadingCtrl.present();
-       this.url = "https://purpledimes.com/James-Horse/mobile/image.php?id=" + this.user_id; 
-      console.log(this.url)
-      fileTransfer.upload(this.profile_picture, this.url, options).then(data => {
-        console.log("FiletransferObject URl",this.profile_picture)
-      loadingCtrl.dismissAll()
-      console.log("image uploaded");
+      },
+      {
+        text: 'Use Camera',
+        handler: () => {
+          this.takePicture(this.camera.PictureSourceType.CAMERA);
+          //this.Alertconfirm();
+        }
+      },
+      {
+        text: 'Cancel',
+        role: 'cancel'
+      }
+    ]
+  });
+  actionSheet.present();
 
-        this.navCtrl.push(EditprofilePage);
-
-      console.log("data",data)
-      let alert = this.alertCtrl.create({
-        title: 'Profile Updated Successfully!',
-        buttons: ['OK']
-      });
-      alert.present();
-    }, err => {
-      loadingCtrl.dismissAll()
-      console.log("Failed uploading image", err);
-    });
-  
-  }
 }
+
+public takePicture(sourceType) {
+  // Create options for the Camera Dialog
+  var options = {
+    quality: 100,
+    sourceType: sourceType,
+    saveToPhotoAlbum: false,
+    correctOrientation: true
+  };
+
+  // Get the data of an image
+  this.camera.getPicture(options).then((imagePath) => {
+    // Special handling for Android library
+   console.log("ImageURL from Source",imagePath)
+    this.imageURI = imagePath;
+    console.log("ImageURL ",this.imageURI)
+  }, (err) => {
+    this.presentToast('Error while selecting image.');
+  });
+}
+
+private presentToast(text) {
+  let toast = this.toastCtrl.create({
+    message: text,
+    duration: 3000,
+    position: 'bottom'
+  });
+  toast.present();
+}
+
+// Always get the accurate path to your apps folder
+
+
+public uploadImage() {
+ 
+  // File for Upload
+  console.log(this.imageURI)
+  var targetPath = this.imageURI
+
+  var temp= this.imageURI.replace(".png?","_");
+  var temp1=temp.replace(".jpg?","_");
+  // File name only
+  var filename = temp1;
+
+  var options = {
+    fileKey: "file",
+    fileName:filename,
+    chunkedMode: false,
+    mimeType: "image/jpeg",
+    params: { 'fileName': filename }
+  };
+
+  const fileTransfer: FileTransferObject = this.transfer.create();
+
+  let loadingCtrl = this.loadingCtrl.create({
+    content: 'Validating Resources...',
+  });
+  loadingCtrl.present();
+ 
+  this.url = "https://purpledimes.com/James-Horse/mobile/image.php?id=" + this.user_id; 
+    console.log(this.url)
+    fileTransfer.upload(this.imageURI, this.url, options).then(data => {
+      console.log("FiletransferObject URl",this.imageURI)
+    loadingCtrl.dismissAll()
+    console.log("image uploaded");
+    let alert = this.alertCtrl.create({
+      title: 'Registeration Successful',
+      buttons: ['OK']
+    });
+    alert.present();
+
+    this.navCtrl.setRoot(EditprofilePage);
+    console.log("data",data)
+  }, err => {
+    loadingCtrl.dismissAll()
+    //this.presentToast('Error while uploading file.');
+    console.log("Failed uploading image", err);
+  });
+
+}
+
+}
+

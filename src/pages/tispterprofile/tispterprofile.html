@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-navbar>
+      <button ion-button icon-only menuToggle>
+          <ion-icon name="ios-menu-outline"></ion-icon>
+        </button>
+        <ion-title><div align="center"><p style="margin-left:-25px">Tipster Profile</p></div></ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <div id="profile-bg" [ngStyle]="{'background-image': 'url(' + imageUrl +')'}"></div>
+  <div id="content">
+    <div id="profile-info">
+      <img id="profile-image" src="imgs/profilepic1.png">
+      <h3 id="profile-name">John</h3>
+      <span id="profile-description">Traveler, geek and animal lover.</span>
+      <p>Follow my <a href="https://twitter.com/ionicframework">@facebook</a> and
+        <a href="https://twitter.com/driftyco">@twitter</a> accounts.</p>
+    </div>
+
+    <h3 style="padding-left:10px">About Us:</h3>
+    <p style="padding-left:10px">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco labori
+    </p>
+  </div>
+</ion-content>

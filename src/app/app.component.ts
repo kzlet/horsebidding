@@ -16,6 +16,7 @@ import { PaypalPage } from '../pages/paypal/paypal';
 import { OneSignal } from '@ionic-native/onesignal';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { Badge } from '@ionic-native/badge';
+import { TispterprofilePage } from '../pages/tispterprofile/tispterprofile';
 
 // Initialize Firebase  kumail-horse (Firebase project name)
 var config = {
@@ -40,6 +41,7 @@ export class MyApp {
   contact = ContactPage;
   event = EventsPage; 
   faq = FaqPage;
+  tips = TispterprofilePage;
   
   constructor(private badge: Badge, public alertCtrl : AlertController, public nativeStorage : NativeStorage, private oneSignal: OneSignal, platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private menuCtrl: MenuController) {
     platform.ready().then(() => {
