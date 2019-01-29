@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import * as firebase from 'Firebase';
+import firebase  from 'Firebase';
 
 @Component({
   selector: 'page-addroom',

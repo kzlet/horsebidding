@@ -10,7 +10,6 @@ import { ContactPage } from '../pages/contact/contact';
 import { EventsPage } from '../pages/events/events';
 import { FaqPage } from '../pages/faq/faq';
 import { SettingsPage } from '../pages/settings/settings';
-import * as firebase from 'firebase';
 import { PaypalPage } from '../pages/paypal/paypal';
 //for Push notifications
 import { OneSignal } from '@ionic-native/onesignal';
@@ -18,14 +17,15 @@ import { NativeStorage } from '@ionic-native/native-storage';
 import { Badge } from '@ionic-native/badge';
 import { TispterprofilePage } from '../pages/tispterprofile/tispterprofile';
 
+import * as firebase from 'firebase/app';
 // Initialize Firebase  kumail-horse (Firebase project name)
 var config = {
-  apiKey: "AIzaSyBu6m7gEDyIHPLEFaIw87Nkikf9t8F9H_U",
-    authDomain: "kumail-horse.firebaseapp.com",
-    databaseURL: "https://kumail-horse.firebaseio.com",
-    projectId: "kumail-horse",
-    storageBucket: "gs://kumail-horse.appspot.com/",
-    messagingSenderId: "896600085936"
+    apiKey: "AIzaSyAZL1xXcN70IBu4AoiNVrskAJY7oS-qdds",
+    authDomain: "racing-room.firebaseapp.com",
+    databaseURL: "https://racing-room.firebaseio.com",
+    projectId: "racing-room",
+    storageBucket: "racing-room.appspot.com",
+    messagingSenderId: "142157616188"
 };
 
 @Component({
@@ -33,7 +33,7 @@ var config = {
 })
 export class MyApp {
   @ViewChild('nav') nav: NavController;
-  rootPage:any = RegisterPage; //HomePage RegisterPage
+  rootPage:any = TispterprofilePage; //HomePage RegisterPage
   
   home = HomePage;
   bookie = BookieOfferPage;
@@ -45,6 +45,7 @@ export class MyApp {
   
   constructor(private badge: Badge, public alertCtrl : AlertController, public nativeStorage : NativeStorage, private oneSignal: OneSignal, platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private menuCtrl: MenuController) {
     platform.ready().then(() => {
+ //     enableProdMode();
       statusBar.styleDefault();
       splashScreen.hide();
     });

@@ -84,4 +84,34 @@ page-tispterprofile {
         bottom: 5px;
         color: #888;
       }
+
+      img{
+        border-radius:50%;
+        height:11rem;
+        width:12rem;
+    }
+
+    .checker{
+      border-radius: 12px 12px;
+      border-top-color:lightgray !important;
+      border-bottom-color:lightgray !important;
+      border-right-color:lightgray !important;
+      border-left-color:lightgray !important;
+      border-top: 1px solid;
+      border-bottom: 1px solid; 
+      border-left: 1px solid;
+      border-right: 1px solid;
+    }
+
+    .round-border{
+      border-radius: 188px 188px;
+      border-top-color:lightgray !important;
+      border-bottom-color:lightgray !important;
+      border-right-color:lightgray !important;
+      border-left-color:lightgray !important;
+      border-top: 4px solid;
+      border-bottom: 4px solid; 
+      border-left: 4px solid;
+      border-right: 4px solid;
+    }
 }

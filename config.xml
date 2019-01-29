@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.ionic.horsetips" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="io.ionic.horsetip" version="0.0.7" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Racing Room</name>
-    <description>An awesome Ionic/Cordova app.</description>
+    <description>Community of horse racing enthusiasts</description>
     <author email="mkumail64@gmail.com" href="http://ionicframework.com/">Mind Aqua</author>
     <content src="index.html" />
     <access origin="*" />

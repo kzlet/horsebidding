@@ -1,26 +1,51 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
+import { Http } from '@angular/http';
+import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'page-tispterprofile',
   templateUrl: 'tispterprofile.html',
 })
 export class TispterprofilePage {
-  posts = [];
   imageUrl: string = 'imgs/Kingman1.jpg';
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    for (let i = 0; i < 10; i++) {
-      this.posts[i] = {
-        text: 'Post text ' + i,
-        created_at: (i + 1),
-      };
-    }
+  apiUrl: string;
+  posts: any;
+  constructor(public loadingCtrl: LoadingController, public alertCtrl: AlertController, private http: Http, public navCtrl: NavController, public navParams: NavParams) {
+  this.get_data();
   }
 
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad TispterprofilePage');
+  }
+
+  get_data()
+  {
+    let loader = this.loadingCtrl.create({
+      content: "Loading Data..."
+    });
+    loader.present();
+
+    this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/get_profiles.php';
+
+    console.log(this.apiUrl);
+
+    this.http.get(this.apiUrl).map(res => res.json())
+      .subscribe(data => {
+
+        this.posts = data;
+        if (this.posts === undefined || this.posts === 'undefined') {
+          alert("No Profiles to Show");
+          loader.dismiss();
+        }
+        else
+          loader.dismiss();
+
+      }, error => {
+        console.log(error); // Error getting the data
+
+      });
   }
 
 }

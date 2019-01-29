@@ -1,35 +1,35 @@
 {
   "project_info": {
-    "project_number": "896600085936",
-    "firebase_url": "https://kumail-horse.firebaseio.com",
-    "project_id": "kumail-horse",
-    "storage_bucket": "kumail-horse.appspot.com"
+    "project_number": "142157616188",
+    "firebase_url": "https://racing-room.firebaseio.com",
+    "project_id": "racing-room",
+    "storage_bucket": "racing-room.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:896600085936:android:151acf163bb0c6a8",
+        "mobilesdk_app_id": "1:142157616188:android:0333e029208aebe8",
         "android_client_info": {
-          "package_name": "io.ionic.horsetips"
+          "package_name": "io.ionic.horsetip"
         }
       },
       "oauth_client": [
         {
-          "client_id": "896600085936-5rrrdc73o9lom7offrlqkhn7dqbt203q.apps.googleusercontent.com",
+          "client_id": "142157616188-9b5butcqhqeh0emlig12nqacfn726ipn.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "io.ionic.horsetips",
+            "package_name": "io.ionic.horsetip",
             "certificate_hash": "d773e0fe56ff0589a9a5e006bd4968ba4786cf44"
           }
         },
         {
-          "client_id": "896600085936-c9re2chk84e25jj0cj70tr2nv4u36mp8.apps.googleusercontent.com",
+          "client_id": "142157616188-otptc9hjc7foddli7p4v52gmbbfoep01.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDgJnexq_ijLgI_HxTp3crVtBwHBKbYjAE"
+          "current_key": "AIzaSyDRM4AHdDHY-m6FuPbuG4wJoi3Lv0zRAq0"
         }
       ],
       "services": {
@@ -40,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "896600085936-c9re2chk84e25jj0cj70tr2nv4u36mp8.apps.googleusercontent.com",
+              "client_id": "142157616188-otptc9hjc7foddli7p4v52gmbbfoep01.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

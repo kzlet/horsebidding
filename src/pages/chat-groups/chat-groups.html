@@ -3,7 +3,7 @@
       <button ion-button icon-only menuToggle>
           <ion-icon name="ios-menu-outline"></ion-icon>
         </button>
-        <ion-title><div align="center"><p style="margin-left:-25px">Premium Tips</p></div></ion-title>
+        <ion-title><div align="center"><p style="margin-left:-25px">VIP Rooms</p></div></ion-title>
     <!-- <ion-buttons end>
       <button ion-button icon-only (click)="addRoom()">
         <ion-icon name="add-circle"></ion-icon>
@@ -14,11 +14,25 @@
 
 <ion-content>
 
-    <ion-item *ngFor="let room of posts" (click)="joinRoom(room.chatroom_key, room.roomname, room.room_image, room.id)">
-      <ion-avatar item-start>
-        <img src="{{room.room_image}}">
-      </ion-avatar>
-      <h2>{{room.roomname}}</h2>
-    </ion-item>
+    <ion-item-group>
+        <ion-item-divider color="light">Admin Rooms</ion-item-divider>
+        <ion-item *ngFor="let tost of toast" (click)="joinadminRoom(tost.chatroom_key, tost.roomname, tost.room_image, tost.id)">
+            <ion-avatar item-start>
+              <img src="{{tost.room_image}}">
+            </ion-avatar>
+            <h2>{{tost.roomname}}</h2>
+          </ion-item>
+      </ion-item-group>
+
+      <ion-item-group>
+          <ion-item-divider color="light">User Rooms</ion-item-divider>
+          <ion-item *ngFor="let room of posts" (click)="joinRoom(room.chatroom_key, room.roomname, room.room_image, room.id)">
+              <ion-avatar item-start>
+                <img src="{{room.room_image}}">
+              </ion-avatar>
+              <h2>{{room.roomname}}</h2>
+            </ion-item>
+        </ion-item-group>
+
 
 </ion-content>

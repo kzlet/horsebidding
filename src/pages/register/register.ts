@@ -129,10 +129,10 @@ export class RegisterPage {
 
 
   login() {
-    this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/user_login.php?email=' + this.email;
+    this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/user_login.php?email=' + this.email + '&password=' + this.password;
     console.log(this.apiUrl)
 
-    if (this.email === undefined) {
+    if (this.email === undefined || this.password === undefined) {
       let alert = this.alertCtrl.create({
         title: 'Sign-in Error',
         subTitle: 'Email and Password Required',
@@ -175,22 +175,29 @@ export class RegisterPage {
               () => console.log('name Stored!'),
               error => console.error('Error storing item', error)
             );
-
+            
           this.nativeStorage.setItem('pay_status', data.pay_status)
             .then(
               () => console.log('name Stored!'),
               error => console.error('Error storing item', error)
             );
 
-          if (data.fire_UID === '' || data.fire_UID === 'undefined' || data.fire_UID === undefined || data.fire_UID === 'Null' || data.fire_UID === null) {
+              this.nativeStorage.setItem('is_admin', data.is_admin)
+              .then(
+                () => console.log('Admin auth stored Stored!'),
+                error => console.error('Error storing item', error)
+              );
+            
+          
+          if (data.playerid === 'Null' || data.playerid === null) {
         
-            this.nativeStorage.getItem('uuid')
+            this.nativeStorage.getItem('playerid')
               .then(
                 data => {
                   console.log("Checking for playerid:" + data);
                   this.fire_uuid = data;
-                    console.log("UUID when fire_UID: " + this.fire_uuid);
-                    this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/register_uid.php?email=' + this.email + '&fire_UID=' + this.fire_uuid;
+                    console.log("Onesinal playerid: " + this.fire_uuid);
+                    this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/register_uid.php?email=' + this.email + '&playerid=' + this.fire_uuid;
                     this.http.get(this.apiUrl).map(res => res.json())
                       .subscribe(data => {
                         loader.dismiss();

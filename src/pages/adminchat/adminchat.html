@@ -1,87 +1,119 @@
 <ion-header>
-    <ion-navbar>
-      <ion-title>
-        {{roomname}}
-      </ion-title>
-      <ion-buttons end>
-        <button ion-button icon-only style="color:red" (click)="exitChat()"> <!--  exitChat()-->
-          <ion-icon name="exit"></ion-icon>
-        </button>
-      </ion-buttons>
+  <ion-navbar>
+    <ion-grid>
+      <ion-row>
+        <ion-col col-2>
+            <ion-buttons start>
+                <button ion-button icon-only (click)="settings()">
+                    <ion-icon ios="ios-more" md="md-more"></ion-icon>
+                </button>
+                </ion-buttons>
+          </ion-col>
+          <ion-col col-8>
+            <ion-title>
+                <div align="center">{{roomname}}</div>
+            </ion-title>
+          </ion-col>
+          <ion-col col-2>
+              <ion-buttons end>
+                  <button ion-button icon-only style="color:red" (click)="exitChat()">
+                      <ion-icon name="exit"></ion-icon>
+                  </button>
+                </ion-buttons>
+          </ion-col>
+      </ion-row>
+    </ion-grid>
     </ion-navbar>
-  </ion-header>
-  
-  <ion-content>
-    <ion-list>
-      <ion-item *ngFor="let chat of chats" no-lines>
-  
-        <div class="chat-status" text-center *ngIf="chat.type==='join'||chat.type==='exit';else message">
-          <span class="chat-date">{{chat.sendDate | date:'short'}}</span>
-          <span class="chat-content-center">{{chat.message}}</span>
+</ion-header>
+
+<ion-content>
+<ion-list>
+  <ion-item *ngFor="let chat of chats" no-lines>
+
+    <div class="chat-status" text-center *ngIf="chat.type==='join'||chat.type==='exit';else message">
+      <!-- <span class="chat-date"></span>
+      <span class="chat-content-center"></span> -->
+    </div>
+    <ng-template #message>
+
+      <div class="chat-message" text-right *ngIf="chat.user === nickname">
+        <div class="right-bubble">
+          <!-- <span class="msg-name">Me</span> -->
+          <p *ngIf="!chat.voice && !chat.image" align="left" text-wrap>{{chat.message}}</p>
+          <span class="msg-date">{{chat.dater}}</span>
+         
+          <!-- <div *ngIf="chat.voice">
+            <div align="left">
+            <ion-buttons start>
+              <button ion-button icon-only style="color:black" (click)="play(chat.voice)">
+                <ion-icon name="play"></ion-icon>
+              </button>
+            </ion-buttons>
+            </div>
+            <ion-buttons end style="margin-top: -43px;">
+              <button ion-button icon-only style="color:black" (click)="pause(chat.voice)">
+                <ion-icon name="pause"></ion-icon>
+              </button>
+            </ion-buttons>
+          </div> -->
+
+          <div *ngIf="chat.image">
+          <img src="{{chat.image}}" style="width:35%" class="thumb-img" imageViewer/>
+          </div>
+
         </div>
-        <ng-template #message>
-  
-          <div class="chat-message" text-right *ngIf="chat.user === nickname">
-            <div class="right-bubble">
-              <span class="msg-name">Me</span>
-              <span class="msg-date">{{chat.sendDate | date:'short'}}</span>
-              <p *ngIf="!chat.voice && !chat.image" text-wrap>{{chat.message}}</p>
-             
-              <div *ngIf="chat.voice">
-  
-                <div align="left">
-                <ion-buttons start>
-                  <button ion-button icon-only style="color:black" (click)="play(chat.voice)">
-                    <ion-icon name="play"></ion-icon>
-                  </button>
-                </ion-buttons>
-                </div>
-                <ion-buttons end style="margin-top: -43px;">
-                  <button ion-button icon-only style="color:black" (click)="pause(chat.voice)">
-                    <ion-icon name="pause"></ion-icon>
-                  </button>
-                </ion-buttons>
-  
+      </div>
+      
+      <div class="chat-message" text-left *ngIf="chat.user !== nickname">
+        <div class="left-bubble">
+          <span class="msg-name" align="left">{{chat.user}}</span>
+          <p *ngIf="!chat.voice && !chat.image" align="left" text-wrap style="color:white">{{chat.message}}</p>
+          <span class="msg-date" style="color:white;margin-top:-5px">{{chat.dater}}</span>
+          
+          <!-- <div *ngIf="chat.voice">
+              <div align="left">
+              <ion-buttons start>
+                <button ion-button icon-only style="color:black" (click)="play(chat.voice)">
+                  <ion-icon name="play"></ion-icon>
+                </button>
+              </ion-buttons>
               </div>
-  
-              <div *ngIf="chat.image">
-              <img src="{{chat.image}}" class="thumb-img" imageViewer/>
-              </div>
-  
-            </div>
-          </div>
-          <div class="chat-message" text-left *ngIf="chat.user !== nickname">
-            <div class="left-bubble">
-              <span class="msg-name">{{chat.user}}</span>
-              <span class="msg-date">{{chat.sendDate | date:'short'}}</span>
-              <p *ngIf="!chat.voice && !chat.image" text-wrap>{{chat.message}}</p>
-              
-              <div *ngIf="chat.voice">
-  
-                  <div align="left">
-                  <ion-buttons start>
-                    <button ion-button icon-only style="color:black" (click)="play(chat.voice)">
-                      <ion-icon name="play"></ion-icon>
-                    </button>
-                  </ion-buttons>
-                  </div>
-                  <ion-buttons end style="margin-top: -43px;">
-                    <button ion-button icon-only style="color:black" (click)="pause(chat.voice)">
-                      <ion-icon name="pause"></ion-icon>
-                    </button>
-                  </ion-buttons>
-    
+              <ion-buttons end style="margin-top: -43px;">
+                <button ion-button icon-only style="color:black" (click)="pause(chat.voice)">
+                  <ion-icon name="pause"></ion-icon>
+                </button>
+              </ion-buttons>
+
+            </div> -->
+
+            <div *ngIf="chat.image">
+                <img src="{{chat.image}}" style="width:35%" class="thumb-img" imageViewer/>
                 </div>
-  
-                <div *ngIf="chat.image">
-                    <img src="{{chat.image}}" class="thumb-img" imageViewer/>
-                    </div>
-  
-            </div>
-          </div>
-        </ng-template>
-      </ion-item>
-    </ion-list>
-  </ion-content>
+
+        </div>
+      </div>
+    </ng-template>
+  </ion-item>
+</ion-list>
+</ion-content>
   <ion-footer>
-  </ion-footer>
+    <div *ngIf="is_admin === 1 || is_admin === '1'">
+      <ion-grid>
+        <ion-row>
+    
+          <ion-col col-2>
+              <ion-icon name="attach" (click)="what()"></ion-icon>
+          </ion-col>
+    
+          <ion-col col-8 style="background-color: gainsboro;border-radius: 12px 12px;">
+            <ion-input type="text" placeholder="Type a message" [(ngModel)]="data.message" name="message"></ion-input>
+          </ion-col>
+    
+          <ion-col col-2>
+            <ion-icon name="paper-plane" (click)="sendMessage()"></ion-icon>
+          </ion-col>
+    
+        </ion-row>
+      </ion-grid>
+    </div>
+    </ion-footer>

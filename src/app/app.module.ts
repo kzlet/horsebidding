@@ -57,12 +57,12 @@ import { TispterprofilePage } from '../pages/tispterprofile/tispterprofile';
 
 //kumail-horse (firebase project name)
 const firebaseAuth = {
-  apiKey: "AIzaSyBu6m7gEDyIHPLEFaIw87Nkikf9t8F9H_U",
-    authDomain: "kumail-horse.firebaseapp.com",
-    databaseURL: "https://kumail-horse.firebaseio.com",
-    projectId: "kumail-horse",
-    storageBucket: "gs://kumail-horse.appspot.com/",
-    messagingSenderId: "896600085936"
+  apiKey: "AIzaSyAZL1xXcN70IBu4AoiNVrskAJY7oS-qdds",
+  authDomain: "racing-room.firebaseapp.com",
+  databaseURL: "https://racing-room.firebaseio.com",
+  projectId: "racing-room",
+  storageBucket: "racing-room.appspot.com",
+  messagingSenderId: "142157616188"
 };
 
 

@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams, Content, ActionSheetController, ToastController, Platform, ModalController } from 'ionic-angular';
-import * as firebase from 'Firebase';
+import firebase  from 'Firebase';
 import { ChatGroupsPage } from '../chat-groups/chat-groups';
 import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 import { FileChooser } from '@ionic-native/file-chooser';
@@ -52,6 +52,7 @@ export class ChatPage {
 
   constructor(private badge: Badge, private http: Http, private db : AngularFireDatabase,public modalCtrl: ModalController, private file: File, public platform: Platform, private media: Media, public toastCtrl: ToastController, private camera: Camera, public actionSheetCtrl: ActionSheetController, private nativeStorage: NativeStorage, public navCtrl: NavController, public navParams: NavParams, private fileTransfer: FileTransferObject, private fileChooser: FileChooser, private transfer: FileTransfer) {
     this.myPhotosRef = firebase.storage().ref('/images/');
+    console.log(this.myPhotosRef);
     console.log("Mike value" + this.mike_value);
     this.roomkey = this.navParams.get("key") as string;
     this.nickname = this.navParams.get("nickname") as string;
@@ -59,10 +60,11 @@ export class ChatPage {
     this.room_image = this.navParams.get("room_image") as string;
     this.room_id = this.navParams.get("room_id") as string;
    
-    this.nativeStorage.getItem('uuid')
+    this.nativeStorage.getItem('user_id')
     .then(
       data => {
         this.uuid = data;
+        console.log(this.uuid);
       },
       error => console.error(error)
     );
@@ -92,6 +94,7 @@ export class ChatPage {
   }
 
   sendMessage() {
+    console.log("clicked");
     let newData = firebase.database().ref('chatrooms/' + this.roomkey + '/chats').push();
     newData.set({
       type: this.data.type,

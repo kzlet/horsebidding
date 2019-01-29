@@ -6,7 +6,7 @@ import { FaqPage } from '../faq/faq';
 import { BookieOfferPage } from '../bookie-offer/bookie-offer';
 import { SettingsPage } from '../settings/settings';
 import { ContactPage } from '../contact/contact';
-import * as firebase from 'Firebase';
+import firebase from 'Firebase';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { AngularFireDatabase, AngularFireObject  } from '@angular/fire/database';
 import { AngularFireAuth } from '@angular/fire/auth';
@@ -40,13 +40,12 @@ export class HomePage {
 
   constructor(public alertCtrl: AlertController, private afDatabase : AngularFireDatabase , private nativeStorage: NativeStorage, private fire : AngularFireAuth , public navCtrl: NavController, public menuCtrl: MenuController) {
     this.posts = [
-      { 'image': 'imgs/icon1.png', 'name': 'VIP Rooms', 'id': '1' },
-      { 'image': 'imgs/icon2.png', 'name': 'Tipster Profile', 'id': '2' },
-      { 'image': 'imgs/icon2.png', 'name': 'Events', 'id': '3' },
-      { 'image': 'imgs/icon3.png', 'name': 'FAQ', 'id': '4' },
-      { 'image': 'imgs/icon4.png', 'name': 'Contact Us', 'id': '5' },
-      { 'image': 'imgs/icon3.png', 'name': 'Bookie Offer', 'id': '6' },
-      { 'image': 'imgs/icon4.png', 'name': 'Settings', 'id': '7' },
+      { 'image': 'imgs/viprooms.png', 'name': 'VIP Rooms', 'id': '1' },
+      { 'image': 'imgs/expert.png', 'name': 'Expert Profiles', 'id': '2' },
+      { 'image': 'imgs/events.png', 'name': 'Events', 'id': '3' },
+      { 'image': 'imgs/faq.png', 'name': 'FAQ', 'id': '4' },
+      { 'image': 'imgs/contact.png', 'name': 'Contact Us', 'id': '5' },
+      { 'image': 'imgs/settings.png', 'name': 'Settings', 'id': '7' },
     ]
 
     this.ref2.on('value', resp => {

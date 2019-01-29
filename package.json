@@ -1,5 +1,5 @@
 {
-  "name": "HorseBridle",
+  "name": "racing_room",
   "version": "0.0.1",
   "author": "Ionic Framework",
   "homepage": "http://ionicframework.com/",
@@ -7,7 +7,7 @@
   "scripts": {
     "start": "ionic-app-scripts serve",
     "clean": "ionic-app-scripts clean",
-    "build": "ionic-app-scripts build",
+    "build": "node --max-old-space-size=8096 ./node_modules/.bin/ionic-app-scripts build",
     "lint": "ionic-app-scripts lint"
   },
   "dependencies": {
