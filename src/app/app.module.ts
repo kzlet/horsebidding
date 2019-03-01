@@ -54,6 +54,7 @@ import { EditprofilePage } from '../pages/editprofile/editprofile';
 //inappbrowser
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { TispterprofilePage } from '../pages/tispterprofile/tispterprofile';
+import { MemberCriPage } from '../pages/member-cri/member-cri';
 
 //kumail-horse (firebase project name)
 const firebaseAuth = {
@@ -86,7 +87,8 @@ const firebaseAuth = {
     ProfilePage,
     ChatsettingsPage,
     EditprofilePage,
-    TispterprofilePage
+    TispterprofilePage,
+    MemberCriPage
   ],
   imports: [
     BrowserModule,
@@ -116,7 +118,8 @@ const firebaseAuth = {
     ProfilePage,
     ChatsettingsPage,
     EditprofilePage,
-    TispterprofilePage
+    TispterprofilePage,
+    MemberCriPage
   ],
   providers: [
     StatusBar,

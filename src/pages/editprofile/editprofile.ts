@@ -47,7 +47,7 @@ export class EditprofilePage {
       });
       loader.present();
   
-      this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/fetch_user_data.php?id=' + this.user_id;
+      this.apiUrl = 'http://racingroom.co.uk/mobile/mobile/fetch_user_data.php?id=' + this.user_id;
        console.log(this.apiUrl);
   
        this.http.get(this.apiUrl).map(res => res.json())
@@ -88,7 +88,7 @@ export class EditprofilePage {
         });
         loader.present();
 
-        this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/update_user_profile.php?name=' + this.name + '&id=' + this.user_id  + '&post_code=' + this.post_code + '&phone_number=' + this.phone_number + '&dob=' + this.dob;
+        this.apiUrl = 'http://racingroom.co.uk/mobile/mobile/update_user_profile.php?name=' + this.name + '&id=' + this.user_id  + '&post_code=' + this.post_code + '&phone_number=' + this.phone_number + '&dob=' + this.dob;
        
         this.http.get(this.apiUrl).map(res => res.json())
           .subscribe(data => {
@@ -216,7 +216,7 @@ public uploadImage() {
   });
   loadingCtrl.present();
  
-  this.url = "https://purpledimes.com/James-Horse/mobile/image.php?id=" + this.user_id; 
+  this.url = "http://racingroom.co.uk/mobile/mobile/image.php?id=" + this.user_id; 
     console.log(this.url)
     fileTransfer.upload(this.imageURI, this.url, options).then(data => {
       console.log("FiletransferObject URl",this.imageURI)

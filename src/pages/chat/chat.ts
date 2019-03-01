@@ -49,6 +49,7 @@ export class ChatPage {
   room_image: string;
   apiUrl: string;
   room_id: string;
+  me_color: string;
 
   constructor(private badge: Badge, private http: Http, private db : AngularFireDatabase,public modalCtrl: ModalController, private file: File, public platform: Platform, private media: Media, public toastCtrl: ToastController, private camera: Camera, public actionSheetCtrl: ActionSheetController, private nativeStorage: NativeStorage, public navCtrl: NavController, public navParams: NavParams, private fileTransfer: FileTransferObject, private fileChooser: FileChooser, private transfer: FileTransfer) {
     this.myPhotosRef = firebase.storage().ref('/images/');
@@ -59,6 +60,7 @@ export class ChatPage {
     this.roomname = this.navParams.get("roomname") as string;
     this.room_image = this.navParams.get("room_image") as string;
     this.room_id = this.navParams.get("room_id") as string;
+    this.me_color = this.navParams.get("me_color") as string;
    
     this.nativeStorage.getItem('user_id')
     .then(
@@ -104,6 +106,7 @@ export class ChatPage {
       dater : new Date().toLocaleTimeString(),
       message_status: '1',
       uuid : this.uuid,
+      font_color : this.me_color
     });
     this.data.message = '';
     this.send_push();
@@ -112,7 +115,7 @@ export class ChatPage {
   send_push()
   {
     console.log("Room id" + this.room_id);
-    this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/push_for_chat.php?id=' + this.room_id;
+    this.apiUrl = 'http://racingroom.co.uk/mobile/mobile/push_for_chat.php?id=' + this.room_id;
     this.http.get(this.apiUrl).map(res => res.json())
       .subscribe(data => {
         console.log("After data:" + data);

@@ -27,7 +27,7 @@ export class TispterprofilePage {
     });
     loader.present();
 
-    this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/get_profiles.php';
+    this.apiUrl = 'http://racingroom.co.uk/mobile/mobile/get_profiles.php';
 
     console.log(this.apiUrl);
 

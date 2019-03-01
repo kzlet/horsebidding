@@ -50,7 +50,7 @@ export class ChatsettingsPage {
       content: "Loading Profile..."
     });
     loader.present();
-    this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/get_push_notification_status.php?id=' + this.user_id + '&chatroom_id=' + this.room_id ;
+    this.apiUrl = 'http://racingroom.co.uk/mobile/mobile/get_push_notification_status.php?id=' + this.user_id + '&chatroom_id=' + this.room_id ;
 
     console.log(this.apiUrl);
 
@@ -90,7 +90,7 @@ export class ChatsettingsPage {
         content: "Updating Status..."
       });
       loader.present();
-      this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/update_notification_status.php?user_id=' + this.user_id + '&chatroom_id=' + this.room_id + '&notification_status=' + this.value;
+      this.apiUrl = 'http://racingroom.co.uk/mobile/mobile/update_notification_status.php?user_id=' + this.user_id + '&chatroom_id=' + this.room_id + '&notification_status=' + this.value;
     
       console.log(this.apiUrl);
   
@@ -121,7 +121,7 @@ export class ChatsettingsPage {
         content: "Updating Status..."
       });
       loader.present();
-      this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/update_notification_status.php?user_id=' + this.user_id + '&chatroom_id=' + this.room_id + '&notification_status=' + this.value;
+      this.apiUrl = 'http://racingroom.co.uk/mobile/mobile/update_notification_status.php?user_id=' + this.user_id + '&chatroom_id=' + this.room_id + '&notification_status=' + this.value;
     
       console.log(this.apiUrl);
   

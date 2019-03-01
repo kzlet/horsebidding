@@ -33,6 +33,8 @@ export class RegisterPage {
   post_code: string;
   phone_number: string;
   mydate: string;
+  me_color: string;
+  color: string;
 
   constructor(private http: Http, private afDatabase: AngularFireDatabase, private nativeStorage: NativeStorage, private fire: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public app: App) {
     this.nativeStorage.getItem('playerid')
@@ -50,6 +52,12 @@ export class RegisterPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad RegisterPage');
+    this.get_color_code();
+  }
+
+  get_color_code() {
+    this.color = Math.floor(0x1000000 * Math.random()).toString(16);
+    this.me_color =  ('000000' + this.color).slice(-6); //'#' +
   }
 
   reset_pass()
@@ -129,7 +137,7 @@ export class RegisterPage {
 
 
   login() {
-    this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/user_login.php?email=' + this.email + '&password=' + this.password;
+    this.apiUrl = 'http://racingroom.co.uk/mobile/mobile/user_login.php?email=' + this.email + '&password=' + this.password;
     console.log(this.apiUrl)
 
     if (this.email === undefined || this.password === undefined) {
@@ -158,75 +166,110 @@ export class RegisterPage {
 
         if (str === 'success') {
 
-          this.nativeStorage.setItem('user_id', data.id)
-          .then(
-            () => console.log('User id Stored!'),
-            error => console.error('Error storing item', error)
-          );
-
-          this.nativeStorage.setItem('email', data.email)
+          if (data.pay_status === '1' || data.pay_status === 1)
+          {
+            this.nativeStorage.setItem('user_id', data.id)
             .then(
-              () => console.log('User Email Stored!'),
+              () => console.log('User id Stored!'),
               error => console.error('Error storing item', error)
             );
-
-          this.nativeStorage.setItem('nickname', data.name)
-            .then(
-              () => console.log('name Stored!'),
-              error => console.error('Error storing item', error)
-            );
-            
-          this.nativeStorage.setItem('pay_status', data.pay_status)
-            .then(
-              () => console.log('name Stored!'),
-              error => console.error('Error storing item', error)
-            );
-
-              this.nativeStorage.setItem('is_admin', data.is_admin)
+  
+            this.nativeStorage.setItem('email', data.email)
               .then(
-                () => console.log('Admin auth stored Stored!'),
+                () => console.log('User Email Stored!'),
                 error => console.error('Error storing item', error)
               );
-            
-          
-          if (data.playerid === 'Null' || data.playerid === null) {
-        
-            this.nativeStorage.getItem('playerid')
+  
+            this.nativeStorage.setItem('nickname', data.name)
               .then(
-                data => {
-                  console.log("Checking for playerid:" + data);
-                  this.fire_uuid = data;
-                    console.log("Onesinal playerid: " + this.fire_uuid);
-                    this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/register_uid.php?email=' + this.email + '&playerid=' + this.fire_uuid;
-                    this.http.get(this.apiUrl).map(res => res.json())
-                      .subscribe(data => {
-                        loader.dismiss();
-                        console.log("After data:" + data.fire_UID);
-                        let alert = this.alertCtrl.create({
-                          title: 'Login Successful',
-                          subTitle: 'Welcome to Racing Room',
-                          buttons: ['OK']
-                        });
-                        alert.present();
-                        this.navCtrl.setRoot(HomePage);
-                      }, error => {
-                        console.log(error);// Error getting the data
-                      });
-                    
-                },
-                error => console.error(error)
+                () => console.log('name Stored!'),
+                error => console.error('Error storing item', error)
               );
+              
+            this.nativeStorage.setItem('pay_status', data.pay_status)
+              .then(
+                () => console.log('name Stored!'),
+                error => console.error('Error storing item', error)
+              );
+  
+                this.nativeStorage.setItem('is_admin', data.is_admin)
+                .then(
+                  () => console.log('Admin auth stored Stored!'),
+                  error => console.error('Error storing item', error)
+                );
 
-          } //checking for UUID
+                this.nativeStorage.setItem('color_code', data.color_code)
+                .then(
+                  () => console.log('Color code stored Stored!'),
+                  error => console.error('Error storing item', error)
+                );
+              
+                if(data.color_code === '' || data.color_code === null || data.color_code === 'Null')
+                {
+                  console.log("Color:" + this.me_color);
+                  this.apiUrl = 'http://racingroom.co.uk/mobile/mobile/upload_color.php?email=' + this.email + '&color_code=' + this.me_color;
+                  this.http.get(this.apiUrl).map(res => res.json())
+                    .subscribe(data => {
+                      console.log(data);
+                      this.nativeStorage.setItem('color_code', data.color_code)
+                      .then(
+                        () => console.log('color code stored Stored!'),
+                        error => console.error('Error storing item', error)
+                      );
+                    }, error => {
+                      console.log(error);// Error getting the data
+                    });
+                }
+            
+            if (data.playerid === 'Null' || data.playerid === null || data.playerid === '') {
+          
+
+              this.nativeStorage.getItem('playerid')
+                .then(
+                  data => {
+                    console.log("Checking for playerid:" + data);
+                    this.fire_uuid = data;
+                      console.log("Onesinal playerid: " + this.fire_uuid);
+                      this.apiUrl = 'http://racingroom.co.uk/mobile/mobile/register_uid.php?email=' + this.email + '&playerid=' + this.fire_uuid;
+                      this.http.get(this.apiUrl).map(res => res.json())
+                        .subscribe(data => {
+                          loader.dismiss();
+                          console.log("After data:" + data.fire_UID);
+                          let alert = this.alertCtrl.create({
+                            title: 'Login Successful',
+                            subTitle: 'Welcome to Racing Room',
+                            buttons: ['OK']
+                          });
+                          alert.present();
+                          this.navCtrl.setRoot(HomePage);
+                        }, error => {
+                          console.log(error);// Error getting the data
+                        });
+                      
+                  },
+                  error => console.error(error)
+                );
+
+              } //checking for UUID
+              else{
+              let alert = this.alertCtrl.create({
+                title: 'Login Successful',
+                subTitle: 'Welcome to Racing Room',
+                buttons: ['OK']
+              });
+              alert.present();
+              this.navCtrl.setRoot(HomePage);
+            }
+          }
+
           else{
-          let alert = this.alertCtrl.create({
-            title: 'Login Successful',
-            subTitle: 'Welcome to Racing Room',
-            buttons: ['OK']
-          });
-          alert.present();
-          this.navCtrl.setRoot(HomePage);
-        }
+            let alert = this.alertCtrl.create({
+              title: 'Payment Overdue',
+              subTitle: 'Please clear your bill in order to continue using our services. Thank You',
+              buttons: ['OK']
+            });
+            alert.present();
+          }
 
         } else if (str === 'failed') {
           let alert = this.alertCtrl.create({
@@ -280,7 +323,7 @@ export class RegisterPage {
                 this.playerid = data;
             
 
-            this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/user_register.php?name=' + this.name + '&password=' + this.password + '&email=' + this.email + '&playerid=' + this.playerid + '&post_code=' + this.post_code + '&phone_number=' + this.phone_number + '&dob=' + this.mydate;
+            this.apiUrl = 'http://racingroom.co.uk/mobile/mobile/user_register.php?name=' + this.name + '&password=' + this.password + '&email=' + this.email + '&playerid=' + this.playerid + '&post_code=' + this.post_code + '&phone_number=' + this.phone_number + '&dob=' + this.mydate;
 
             this.http.get(this.apiUrl).map(res => res.json())
               .subscribe(data => {

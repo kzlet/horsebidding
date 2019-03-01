@@ -26,7 +26,7 @@ export class BookieOfferPage {
     });
     loader.present();
 
-    this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/get_offers.php';
+    this.apiUrl = 'http://racingroom.co.uk/mobile/mobile/get_offers.php';
 
     console.log(this.apiUrl);
 

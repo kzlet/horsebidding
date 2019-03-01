@@ -58,7 +58,7 @@
             </div> -->
 
             <div *ngIf="chat.image">
-            <img src="{{chat.image}}" style="width:35%" class="thumb-img" imageViewer/>
+              <div align="center"><img src="{{chat.image}}" style="width:35%" class="thumb-img" imageViewer/></div>
             </div>
 
           </div>
@@ -66,7 +66,7 @@
         
         <div class="chat-message" text-left *ngIf="chat.user !== nickname">
           <div class="left-bubble">
-            <span class="msg-name" align="left">{{chat.user}}</span>
+            <span class="msg-name" align="left" [style.color]="chat.font_color">{{chat.user}}</span>
             <p *ngIf="!chat.voice && !chat.image" align="left" text-wrap style="color:white">{{chat.message}}</p>
             <span class="msg-date" style="color:white;margin-top:-5px">{{chat.dater}}</span>
             
@@ -87,7 +87,7 @@
               </div> -->
 
               <div *ngIf="chat.image">
-                  <img src="{{chat.image}}" style="width:35%" class="thumb-img" imageViewer/>
+                  <div align="center"><img src="{{chat.image}}" style="width:40%" class="thumb-img" imageViewer/></div>
                   </div>
 
           </div>

@@ -18,6 +18,7 @@ import { Badge } from '@ionic-native/badge';
 import { TispterprofilePage } from '../pages/tispterprofile/tispterprofile';
 
 import * as firebase from 'firebase/app';
+import { MemberCriPage } from '../pages/member-cri/member-cri';
 // Initialize Firebase  kumail-horse (Firebase project name)
 var config = {
     apiKey: "AIzaSyAZL1xXcN70IBu4AoiNVrskAJY7oS-qdds",
@@ -33,7 +34,7 @@ var config = {
 })
 export class MyApp {
   @ViewChild('nav') nav: NavController;
-  rootPage:any = TispterprofilePage; //HomePage RegisterPage
+  rootPage:any = RegisterPage; //HomePage RegisterPage
   
   home = HomePage;
   bookie = BookieOfferPage;
@@ -42,6 +43,7 @@ export class MyApp {
   event = EventsPage; 
   faq = FaqPage;
   tips = TispterprofilePage;
+  member = MemberCriPage;
   
   constructor(private badge: Badge, public alertCtrl : AlertController, public nativeStorage : NativeStorage, private oneSignal: OneSignal, platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private menuCtrl: MenuController) {
     platform.ready().then(() => {

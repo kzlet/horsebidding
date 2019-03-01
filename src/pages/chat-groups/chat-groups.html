@@ -15,7 +15,7 @@
 <ion-content>
 
     <ion-item-group>
-        <ion-item-divider color="light">Admin Rooms</ion-item-divider>
+        <ion-item-divider color="light">Expert Rooms</ion-item-divider>
         <ion-item *ngFor="let tost of toast" (click)="joinadminRoom(tost.chatroom_key, tost.roomname, tost.room_image, tost.id)">
             <ion-avatar item-start>
               <img src="{{tost.room_image}}">

@@ -8,12 +8,12 @@
       <ion-grid>
           <ion-row>
             <ion-col *ngFor="let post of posts, let i = index" col-6>
-             <ion-card [class.highlight]=" i === selected" class="change-color" (click)="addEvent(i, post.id)" style="border-radius:12px 12px; background-color:black">
+             <ion-card [class.highlight]=" i === selected" class="change-color" (click)="addEvent(i, post.id)">
             <div align="center">
               <img src="{{post.image}}" style="width: 54%;padding-top: 18px;"/>
-              <p style="padding-top: 11px;padding-bottom: 10px;color:white"><b>{{post.name}}</b></p>
+              <p style="padding-top: 11px;padding-bottom: 10px;color:black"><b>{{post.name}}</b></p>
             </div>
-            </ion-card>
+          </ion-card>
             </ion-col>
           </ion-row>
         </ion-grid>

@@ -69,7 +69,7 @@ export class AdminchatPage {
       error => console.error(error)
     );
 
-    this.nativeStorage.getItem('uuid')
+    this.nativeStorage.getItem('user_id')
     .then(
       data => {
         this.uuid = data;
@@ -120,7 +120,7 @@ export class AdminchatPage {
   send_push()
   {
     console.log("Room id" + this.room_id);
-    this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/push_for_chat.php?id=' + this.room_id;
+    this.apiUrl = 'http://racingroom.co.uk/mobile/mobile/push_for_chat.php?id=' + this.room_id;
     this.http.get(this.apiUrl).map(res => res.json())
       .subscribe(data => {
         console.log("After data:" + data);

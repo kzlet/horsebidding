@@ -20,9 +20,11 @@
   
 
       <ion-list>
+        <ion-card>
           <ion-item *ngFor="let item of items">
               {{ item.name }}
-            <ion-icon name="ios-arrow-forward-outline" item-end></ion-icon>
+              <p>{{item.description}}</p>
           </ion-item>
+        </ion-card>
         </ion-list>
   </ion-content>

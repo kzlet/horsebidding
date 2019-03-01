@@ -27,7 +27,7 @@ export class EventsPage {
     });
     loader.present();
 
-    this.apiUrl = 'https://purpledimes.com/James-Horse/mobile/get_events.php';
+    this.apiUrl = 'http://racingroom.co.uk/mobile/mobile/get_events.php';
 
     console.log(this.apiUrl);
 
