@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavParams, AlertController, App, LoadingController, NavController, Slides, } from 'ionic-angular';
+import { NavParams, AlertController, App, LoadingController, NavController, Slides, ModalController, } from 'ionic-angular';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { HomePage } from '../home/home';
 import { NativeStorage } from '@ionic-native/native-storage';
@@ -8,6 +8,7 @@ import { AngularFireDatabase, AngularFireObject } from '@angular/fire/database';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Profile } from '../../models/profile';
+import { PaypalPage } from '../paypal/paypal';
 
 @Component({
   selector: 'page-register',
@@ -36,7 +37,7 @@ export class RegisterPage {
   me_color: string;
   color: string;
 
-  constructor(private http: Http, private afDatabase: AngularFireDatabase, private nativeStorage: NativeStorage, private fire: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public app: App) {
+  constructor(public modalCtrl: ModalController, private http: Http, private afDatabase: AngularFireDatabase, private nativeStorage: NativeStorage, private fire: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public app: App) {
     this.nativeStorage.getItem('playerid')
     .then(
       data => {
@@ -53,6 +54,12 @@ export class RegisterPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad RegisterPage');
     this.get_color_code();
+  }
+
+  openModal()
+  {
+    const modal = this.modalCtrl.create(PaypalPage);
+    modal.present();
   }
 
   get_color_code() {

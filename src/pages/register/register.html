@@ -21,6 +21,10 @@
       <div align="right" style="margin-top:10px;padding-right:20px">
         <p (click)="forget()">Forget Password ?</p>
       </div>
+
+    <div>
+      <p>I agree to the <a (click)="openModal()">Terms & Conditions</a></p>
+    </div>
    
     </div>
  
@@ -29,16 +33,12 @@
     <button ion-button round full style="width:75%;color:white;background-color:black" (click)="login()">Login</button>
   </div>
 
-  <!-- <div align="center" (click)="registerpage()">
-  <p>Don't have an account ? Click to Register</p>
-</div> -->
-
   </div>
 
 
   <div *ngIf="value === 2 || value === '2'">
     
-    <div style="margin-top:85px;padding:5%">
+    <!-- <div style="margin-top:85px;padding:5%">
      
       <ion-item style="border-radius:30px 30px;">        
         <ion-label><ion-icon name="ios-mail-outline"></ion-icon></ion-label>
@@ -82,7 +82,7 @@
 
     <div align="center">
     <button ion-button round full style="width:75%;color:white;background-color:black" (click)="signup()">Register</button>
-  </div>
+  </div> -->
 
   <!-- <div align="center" (click)="loginpage()">
   <p style="color:black">Already have an Account ? Click to Signin</p>

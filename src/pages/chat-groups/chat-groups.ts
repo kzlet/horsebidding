@@ -26,17 +26,18 @@ export class ChatGroupsPage {
   toast: any;
   me_color: string;
   color_code: any;
+  chatroom_id: string;
 
   constructor(public loadingCtrl: LoadingController, private http: Http, private nativeStorage: NativeStorage, public navCtrl: NavController, public navParams: NavParams) {
 
-    
+
     this.nativeStorage.getItem('color_code')
-    .then(
-      data => {
-        this.color_code = data;
-      },
-      error => console.error(error)
-    );
+      .then(
+        data => {
+          this.color_code = data;
+        },
+        error => console.error(error)
+      );
 
     this.nativeStorage.getItem('nickname')
       .then(
@@ -50,8 +51,6 @@ export class ChatGroupsPage {
       .then(
         data => {
           this.user_id = data;
-          this.get_chatrooms();
-          this.get_admin_chatrooms();
         },
         error => console.error(error)
       );
@@ -70,6 +69,8 @@ export class ChatGroupsPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ChatGroupsPage');
+    this.get_chatrooms();
+    this.get_admin_chatrooms();
   }
 
 
@@ -93,34 +94,100 @@ export class ChatGroupsPage {
     console.log("Color code:" + this.color_code);
     console.log("Keys:" + key);
     console.log("nickname:" + this.nickname);
-    this.navCtrl.setRoot(ChatPage, {
-      key: key,
-      nickname: this.nickname,
-      roomname: roomname,
-      room_image: room_image,
-      room_id: room_id,
-      me_color :this.color_code
-    });
+    this.apiUrl = 'http://racingroom.co.uk/mobile/mobile/check_for_subscription.php?user_id=' + this.user_id + '&chatroom_id=' + room_id;
+    console.log(this.apiUrl);
+    this.http.get(this.apiUrl).map(res => res.json())
+      .subscribe(data => {
+        this.posts = data;
+        if (this.posts.Status === 'success') {
+          this.navCtrl.setRoot(ChatPage, {
+            key: key,
+            nickname: this.nickname,
+            roomname: roomname,
+            room_image: room_image,
+            room_id: room_id,
+            me_color: this.color_code
+          });
+        }
+        else {
+          this.chatroom_id = room_id;
+          this.apiUrl = 'http://racingroom.co.uk/mobile/mobile/apply_for_subscription.php?user_id=' + this.user_id + '&chatroom_id=' + this.chatroom_id;
+          console.log(this.apiUrl);
+          this.http.get(this.apiUrl).map(res => res.json())
+            .subscribe(data => {
+              this.posts = data;
+              if (this.posts.Status === 'success') {
+                this.navCtrl.setRoot(ChatPage, {
+                  key: key,
+                  nickname: this.nickname,
+                  roomname: roomname,
+                  room_image: room_image,
+                  room_id: room_id,
+                  me_color: this.color_code
+                });
+              }
+              else {
+                alert("Connection Error");
+              }
+            }, error => {
+              console.log(error); // Error getting the data
+            });
+        }
+      }, error => {
+        console.log(error); // Error getting the data
+      });
   }
 
   joinadminRoom(key, roomname: string, room_image: string, room_id: string) {
+    console.log("Color code:" + this.color_code);
     console.log("Keys:" + key);
     console.log("nickname:" + this.nickname);
-    this.navCtrl.setRoot(AdminchatPage, {
-      key: key,
-      nickname: this.nickname,
-      roomname: roomname,
-      room_image: room_image,
-      room_id: room_id
-    });
+    this.apiUrl = 'http://racingroom.co.uk/mobile/mobile/check_for_subscription.php?user_id=' + this.user_id + '&chatroom_id=' + room_id;
+    console.log(this.apiUrl);
+    this.http.get(this.apiUrl).map(res => res.json())
+      .subscribe(data => {
+        this.posts = data;
+        if (this.posts.Status === 'success') {
+          this.navCtrl.setRoot(AdminchatPage, {
+            key: key,
+            nickname: this.nickname,
+            roomname: roomname,
+            room_image: room_image,
+            room_id: room_id,
+            me_color: this.color_code
+          });
+        }
+        else {
+          this.chatroom_id = room_id;
+          this.apiUrl = 'http://racingroom.co.uk/mobile/mobile/apply_for_subscription.php?user_id=' + this.user_id + '&chatroom_id=' + this.chatroom_id;
+          console.log(this.apiUrl);
+          this.http.get(this.apiUrl).map(res => res.json())
+            .subscribe(data => {
+              this.posts = data;
+              if (this.posts.Status === 'success') {
+                this.navCtrl.setRoot(AdminchatPage, {
+                  key: key,
+                  nickname: this.nickname,
+                  roomname: roomname,
+                  room_image: room_image,
+                  room_id: room_id,
+                  me_color: this.color_code
+                });
+              }
+              else {
+                alert("Connection Error");
+              }
+            }, error => {
+              console.log(error); // Error getting the data
+            });
+        }
+      }, error => {
+        console.log(error); // Error getting the data
+      });
   }
 
   get_chatrooms() {
-    let loader = this.loadingCtrl.create({
-      content: "Loading Chat Rooms..."
-    });
-    loader.present();
-    this.apiUrl = 'http://racingroom.co.uk/mobile/mobile/get_chatrooms.php?id=' + this.user_id;
+    this.apiUrl = 'http://racingroom.co.uk/mobile/mobile/get_chatrooms.php';
 
     console.log(this.apiUrl);
 
@@ -129,21 +196,17 @@ export class ChatGroupsPage {
         this.posts = data;
         if (this.posts.status === 'failed') {
           alert("No Chat Rooms assigned to you yet !");
-          loader.dismiss();
         }
-        else
-          loader.dismiss();
+        else {
+
+        }
       }, error => {
         console.log(error); // Error getting the data
       });
   }
 
   get_admin_chatrooms() {
-    let loader = this.loadingCtrl.create({
-      content: "Loading Chat Rooms..."
-    });
-    loader.present();
-    this.apiUrl = 'http://racingroom.co.uk/mobile/mobile/get_admin_chatrooms.php?id=' + this.user_id;
+    this.apiUrl = 'http://racingroom.co.uk/mobile/mobile/get_admin_chatrooms.php';
 
     console.log(this.apiUrl);
 
@@ -152,10 +215,27 @@ export class ChatGroupsPage {
         this.toast = data;
         if (this.posts.status === 'failed') {
           alert("No Admin Chat Rooms available right now!");
-          loader.dismiss();
         }
-        else
-          loader.dismiss();
+        else { }
+      }, error => {
+        console.log(error); // Error getting the data
+      });
+  }
+
+  apply_subscription() {
+    console.log(this.user_id);
+    console.log(this.chatroom_id);
+    this.apiUrl = 'http://racingroom.co.uk/mobile/mobile/apply_for_subscription.php?user_id=' + this.user_id + '&chatroom_id=' + this.chatroom_id;
+    console.log(this.apiUrl);
+    this.http.get(this.apiUrl).map(res => res.json())
+      .subscribe(data => {
+        this.posts = data;
+        if (this.posts.Status === 'success') {
+
+        }
+        else {
+
+        }
       }, error => {
         console.log(error); // Error getting the data
       });
