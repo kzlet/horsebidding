@@ -145,8 +145,7 @@ export class RegisterPage {
 
   login() {
     this.apiUrl = 'http://racingroom.co.uk/mobile/mobile/user_login.php?email=' + this.email + '&password=' + this.password;
-    console.log(this.apiUrl)
-
+    console.log(this.apiUrl);
     if (this.email === undefined || this.password === undefined) {
       let alert = this.alertCtrl.create({
         title: 'Sign-in Error',
@@ -160,19 +159,13 @@ export class RegisterPage {
       content: "Signing In..."
     });
     loader.present();
-
     console.log(this.apiUrl);
-
     this.http.get(this.apiUrl).map(res => res.json())
       .subscribe(data => {
-
         console.log(data);
         loader.dismissAll();
-
         var str = data.Status;
-
         if (str === 'success') {
-
           if (data.pay_status === '1' || data.pay_status === 1)
           {
             this.nativeStorage.setItem('user_id', data.id)
@@ -180,37 +173,31 @@ export class RegisterPage {
               () => console.log('User id Stored!'),
               error => console.error('Error storing item', error)
             );
-  
             this.nativeStorage.setItem('email', data.email)
               .then(
                 () => console.log('User Email Stored!'),
                 error => console.error('Error storing item', error)
               );
-  
             this.nativeStorage.setItem('nickname', data.name)
               .then(
                 () => console.log('name Stored!'),
                 error => console.error('Error storing item', error)
               );
-              
             this.nativeStorage.setItem('pay_status', data.pay_status)
               .then(
                 () => console.log('name Stored!'),
                 error => console.error('Error storing item', error)
               );
-  
                 this.nativeStorage.setItem('is_admin', data.is_admin)
                 .then(
                   () => console.log('Admin auth stored Stored!'),
                   error => console.error('Error storing item', error)
                 );
-
                 this.nativeStorage.setItem('color_code', data.color_code)
                 .then(
                   () => console.log('Color code stored Stored!'),
                   error => console.error('Error storing item', error)
                 );
-              
                 if(data.color_code === '' || data.color_code === null || data.color_code === 'Null')
                 {
                   console.log("Color:" + this.me_color);
@@ -227,10 +214,7 @@ export class RegisterPage {
                       console.log(error);// Error getting the data
                     });
                 }
-            
             if (data.playerid === 'Null' || data.playerid === null || data.playerid === '') {
-          
-
               this.nativeStorage.getItem('playerid')
                 .then(
                   data => {
@@ -252,11 +236,9 @@ export class RegisterPage {
                         }, error => {
                           console.log(error);// Error getting the data
                         });
-                      
                   },
                   error => console.error(error)
                 );
-
               } //checking for UUID
               else{
               let alert = this.alertCtrl.create({
@@ -268,7 +250,6 @@ export class RegisterPage {
               this.navCtrl.setRoot(HomePage);
             }
           }
-
           else{
             let alert = this.alertCtrl.create({
               title: 'Payment Overdue',
@@ -277,7 +258,6 @@ export class RegisterPage {
             });
             alert.present();
           }
-
         } else if (str === 'failed') {
           let alert = this.alertCtrl.create({
             title: 'Authentication Failed',
@@ -288,7 +268,6 @@ export class RegisterPage {
         }
       }, error => {
         console.log(error); // Error getting the data
-
         let alert = this.alertCtrl.create({
           title: 'Network Failed',
           subTitle: 'Please try again later',
